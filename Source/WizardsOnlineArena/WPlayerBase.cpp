@@ -3,18 +3,52 @@
 
 #include "WPlayerBase.h"
 
+#include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/InputComponent.h"
+
 // Sets default values
 AWPlayerBase::AWPlayerBase()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	GetCapsuleComponent()->InitCapsuleSize(40.f, 95.0f);
+
+	TurnRate = 45.0f;
+	LookUpRate = 45.0f;
+
+	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("First Person Camera"));
+	FirstPersonCamera->SetupAttachment(GetCapsuleComponent());
+	FirstPersonCamera->AddRelativeLocation(FVector(-39.65f, 1.75f, 64.0f));
+	FirstPersonCamera->bUseAttachParentBound = true;
+
+	HandsMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Character Mesh"));
+	HandsMesh->SetOnlyOwnerSee(true);
+	HandsMesh->SetupAttachment(FirstPersonCamera);
+	HandsMesh->bCastDynamicShadow = false;
+	HandsMesh->CastShadow = false;
+	HandsMesh->AddRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
+	HandsMesh->AddRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
+
+	Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Gun"));
+	Gun->SetOnlyOwnerSee(true);
+	Gun->bCastDynamicShadow = false;
+	Gun->CastShadow = false;
+
+	MuzzleLocation = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Muzzle Location"));
+	MuzzleLocation->SetupAttachment(Gun);
+	MuzzleLocation->SetRelativeLocation(FVector(-0.2f, 48.4f, -10.6f));
+
+	GunOffset = FVector(100.0f, 0.0f, 10.0f);
 }
 
 // Called when the game starts or when spawned
 void AWPlayerBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	Gun->AttachToComponent(HandsMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("GripPoint"));
 }
 
 // Called every frame
@@ -49,7 +83,12 @@ void AWPlayerBase::MoveSideways(float xMove)
 {
 	AddMovementInput(GetActorRightVector() * xMove);
 }
-/////////////////
+void AWPlayerBase::TurnAtRate(float xRate)
+{
+}
+void AWPlayerBase::LookAtRate(float yRate)
+{
+}
 
 // Crouching Calls
 void AWPlayerBase::StartCrouch()
@@ -61,4 +100,6 @@ void AWPlayerBase::StopCrouch()
 {
 	UnCrouch();
 }
-/////////////////
+void AWPlayerBase::OnFire()
+{
+}

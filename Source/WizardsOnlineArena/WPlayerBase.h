@@ -21,8 +21,13 @@ protected:
 
 	void MoveForward(float yValue);
 	void MoveSideways(float xValue);
+	void TurnAtRate(float xRate);
+	void LookAtRate(float yRate);
+
 	void StartCrouch();
 	void StopCrouch();
+
+	void OnFire();
 
 
 public:	
@@ -32,6 +37,26 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 		
-private:
+public:
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* HandsMesh;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* Gun;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USceneComponent* MuzzleLocation;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Camera)
+		class UCameraComponent* FirstPersonCamera;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Camera)
+		float TurnRate;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Camera)
+		float LookUpRate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		FVector GunOffset;
 
 };
