@@ -21,6 +21,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EnPlayReason) override;
 
 	void MoveForward(float yValue);
 	void MoveSideways(float xValue);
@@ -43,7 +44,13 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float health;
-		
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UPlayerHud> PlayerHUDClass;
+
+	UPROPERTY()
+	class UPlayerHud* PlayerHUD;
+
 private:
 
 };

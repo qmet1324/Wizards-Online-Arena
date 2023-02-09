@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "WPlayerBase.h"
 #include <Components/ShapeComponent.h>
 #include "MyPickup.generated.h"
 
