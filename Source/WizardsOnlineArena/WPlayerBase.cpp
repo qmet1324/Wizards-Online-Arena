@@ -7,6 +7,12 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 
+#include "Bullet.h"
+#include "Animation/AnimInstance.h"
+#include "Kismet/GameplayStatics.h"
+
+#include "WMainGameMode.h"
+
 // Sets default values
 AWPlayerBase::AWPlayerBase()
 {
@@ -53,7 +59,11 @@ void AWPlayerBase::BeginPlay()
 
 	Gun->AttachToComponent(HandsMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("GripPoint"));
 
-	bullets = 6;
+	World = GetWorld();
+
+	AnimInstance = HandsMesh->GetAnimInstance();
+
+	ammo = 15;
 }
 
 // Called every frame
@@ -119,18 +129,43 @@ void AWPlayerBase::StopCrouch()
 
 void AWPlayerBase::OnFire()
 {
-	if (bullets > 0)
+	if (World != NULL)
 	{
-		bullets--;
+		if (ammo > 0)
+		{
+			SpawnRotation = GetControlRotation();
 
+			if (MuzzleLocation != nullptr)
+			{
+				SpawnLocation = MuzzleLocation->GetComponentLocation();
+			}
+			else
+			{
+				SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
+			}
+
+			FActorSpawnParameters ActorSpawnParams;
+			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+			World->SpawnActor<ABullet>(Bullet, SpawnLocation, SpawnRotation, ActorSpawnParams);
+
+			if (FireSound != NULL)
+			{
+				UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+			}
+
+			if (FireAnimation != NULL && AnimInstance != NULL)
+			{
+				AnimInstance->Montage_Play(FireAnimation, 1.0f);
+			}
+
+			ammo--;
+		}
 	}
-	else
-	{
-		//TODO
-	}
+
 }
 
 void AWPlayerBase::Reload()
 {
-	bullets = 6;
+	ammo = 15;
 }

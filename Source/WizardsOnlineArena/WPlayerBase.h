@@ -64,6 +64,22 @@ public:
 		FVector GunOffset;
 
 	UPROPERTY(EditAnywhere)
-		int bullets;
+		int ammo;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class ABullet> Bullet;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class USoundBase* FireSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class UAnimMontage* FireAnimation;
+
+	class UAnimInstance* AnimInstance;
+
+	class UWorld* World;
+
+	FRotator SpawnRotation;
+	FVector SpawnLocation;
 
 };
