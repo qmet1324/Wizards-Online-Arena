@@ -9,9 +9,12 @@ AWPlayerBase::AWPlayerBase()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	health = 50.0f;
 
-	//HUD
+	// Health
+	MaxHealth = 100.0f;
+	Health = MaxHealth;
+
+	// HUD
 	PlayerHUDClass = nullptr;
 	PlayerHUD = nullptr;
 }
@@ -27,6 +30,7 @@ void AWPlayerBase::BeginPlay()
 		PlayerHUD = CreateWidget<UPlayerHud>(FPC, PlayerHUDClass);
 		check(PlayerHUD);
 		PlayerHUD->AddToPlayerScreen();
+		PlayerHUD->SetHealth(Health, MaxHealth);
 	}
 }
 
@@ -61,6 +65,24 @@ void AWPlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction(TEXT("Crouch"), IE_Pressed, this, &AWPlayerBase::StartCrouch);
 	PlayerInputComponent->BindAction(TEXT("Crouch"), IE_Released, this, &AWPlayerBase::StopCrouch);
 
+}
+
+void AWPlayerBase::OnRepHealth()
+{
+	if (PlayerHUD)
+	{
+		PlayerHUD->SetHealth(Health, MaxHealth);
+	}
+}
+
+void AWPlayerBase::UpdateHealth(float HealthDelta)
+{
+	Health = FMath::Clamp(Health + HealthDelta, 0.0f, MaxHealth);
+
+	if (Health == 0.0f)
+	{
+		// Handle player elimination
+	}
 }
 
 // Movement Calls

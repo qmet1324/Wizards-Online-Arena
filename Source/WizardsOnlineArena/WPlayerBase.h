@@ -42,14 +42,28 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Catergoty = Crouch)
 		float crouchSpeed;*/
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
-	float health;
+	// Health
+	
+	// Max amout of health to allow for player
+	UPROPERTY(EditAnywhere)
+	float MaxHealth;
+
+	// Current health of playe
+	UPROPERTY(EditAnywhere)
+	float Health;
+
+	UFUNCTION()
+	void OnRepHealth();
+	
+	// HUD
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UPlayerHud> PlayerHUDClass;
 
 	UPROPERTY()
 	class UPlayerHud* PlayerHUD;
+
+	void UpdateHealth(float HealthDelta);
 
 private:
 
