@@ -13,6 +13,7 @@
 
 #include "WMainGameMode.h"
 
+
 // Sets default values
 AWPlayerBase::AWPlayerBase()
 {
@@ -92,7 +93,6 @@ void AWPlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &AWPlayerBase::OnFire);
 	PlayerInputComponent->BindAction(TEXT("Reload"), IE_Pressed, this, &AWPlayerBase::Reload);
-
 }
 
 // Movement Calls

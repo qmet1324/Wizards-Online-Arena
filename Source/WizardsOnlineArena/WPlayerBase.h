@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "WPlayerBase.generated.h"
 
+
 UCLASS()
 class WIZARDSONLINEARENA_API AWPlayerBase : public ACharacter
 {
@@ -78,6 +79,8 @@ public:
 	class UAnimInstance* AnimInstance;
 
 	class UWorld* World;
+
+	class AWPistolBase* Pistol;
 
 	FRotator SpawnRotation;
 	FVector SpawnLocation;
