@@ -28,6 +28,7 @@ protected:
 	void StopCrouch();
 
 	void OnFire();
+	void Reload();
 
 
 public:	
@@ -38,6 +39,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 		
 public:
+
+	// Mesh Properties
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		class USkeletalMeshComponent* HandsMesh;
 
@@ -47,6 +50,7 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		class USceneComponent* MuzzleLocation;
 
+	// Camera Properties
 	UPROPERTY(VisibleDefaultsOnly, Category = Camera)
 		class UCameraComponent* FirstPersonCamera;
 
@@ -58,5 +62,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		FVector GunOffset;
+
+	UPROPERTY(EditAnywhere)
+		int bullets;
 
 };

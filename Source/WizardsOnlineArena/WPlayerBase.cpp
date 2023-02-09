@@ -18,11 +18,13 @@ AWPlayerBase::AWPlayerBase()
 	TurnRate = 45.0f;
 	LookUpRate = 45.0f;
 
+	// Setting Up Camera
 	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("First Person Camera"));
 	FirstPersonCamera->SetupAttachment(GetCapsuleComponent());
 	FirstPersonCamera->AddRelativeLocation(FVector(-39.65f, 1.75f, 64.0f));
 	FirstPersonCamera->bUsePawnControlRotation = true;
 
+	// Setting Up the hands mesh
 	HandsMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Character Mesh"));
 	HandsMesh->SetOnlyOwnerSee(true);
 	HandsMesh->SetupAttachment(FirstPersonCamera);
@@ -31,6 +33,7 @@ AWPlayerBase::AWPlayerBase()
 	HandsMesh->AddRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
 	HandsMesh->AddRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
 
+	// Setting up the gun 
 	Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Gun"));
 	Gun->SetOnlyOwnerSee(true);
 	Gun->bCastDynamicShadow = false;
@@ -49,6 +52,8 @@ void AWPlayerBase::BeginPlay()
 	Super::BeginPlay();
 
 	Gun->AttachToComponent(HandsMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("GripPoint"));
+
+	bullets = 6;
 }
 
 // Called every frame
@@ -63,13 +68,20 @@ void AWPlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	// Player Inputs for Movement Functions. (Axis and Actions selected in the project preferences).
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AWPlayerBase::MoveForward);
 	PlayerInputComponent->BindAxis(TEXT("MoveSideways"), this, &AWPlayerBase::MoveSideways);
 	PlayerInputComponent->BindAxis(TEXT("LookX"), this, &AWPlayerBase::AddControllerYawInput);
 	PlayerInputComponent->BindAxis(TEXT("LookY"), this, &AWPlayerBase::AddControllerPitchInput);
+
 	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed, this, &AWPlayerBase::Jump);
+	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Released, this, &AWPlayerBase::StopJumping);
+
 	PlayerInputComponent->BindAction(TEXT("Crouch"), IE_Pressed, this, &AWPlayerBase::StartCrouch);
 	PlayerInputComponent->BindAction(TEXT("Crouch"), IE_Released, this, &AWPlayerBase::StopCrouch);
+
+	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &AWPlayerBase::OnFire);
+	PlayerInputComponent->BindAction(TEXT("Reload"), IE_Pressed, this, &AWPlayerBase::Reload);
 
 }
 
@@ -83,11 +95,15 @@ void AWPlayerBase::MoveSideways(float xMove)
 {
 	AddMovementInput(GetActorRightVector() * xMove);
 }
+
+// Camera Calls (Smoother camera)
 void AWPlayerBase::TurnAtRate(float xRate)
 {
+	//TODO
 }
 void AWPlayerBase::LookAtRate(float yRate)
 {
+	//TODO
 }
 
 // Crouching Calls
@@ -100,6 +116,21 @@ void AWPlayerBase::StopCrouch()
 {
 	UnCrouch();
 }
+
 void AWPlayerBase::OnFire()
 {
+	if (bullets > 0)
+	{
+		bullets--;
+
+	}
+	else
+	{
+		//TODO
+	}
+}
+
+void AWPlayerBase::Reload()
+{
+	bullets = 6;
 }
