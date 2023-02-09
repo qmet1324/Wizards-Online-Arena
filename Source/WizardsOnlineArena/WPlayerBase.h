@@ -40,9 +40,10 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Catergoty = Crouch)
 		float crouchSpeed;*/
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	float health;
 		
 private:
-
-	int health;
 
 };
