@@ -21,7 +21,7 @@ AWPlayerBase::AWPlayerBase()
 	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("First Person Camera"));
 	FirstPersonCamera->SetupAttachment(GetCapsuleComponent());
 	FirstPersonCamera->AddRelativeLocation(FVector(-39.65f, 1.75f, 64.0f));
-	FirstPersonCamera->bUseAttachParentBound = true;
+	FirstPersonCamera->bUsePawnControlRotation = true;
 
 	HandsMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Character Mesh"));
 	HandsMesh->SetOnlyOwnerSee(true);
