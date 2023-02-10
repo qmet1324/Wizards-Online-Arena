@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "WPlayerBase.generated.h"
 
+
 UCLASS()
 class WIZARDSONLINEARENA_API AWPlayerBase : public ACharacter
 {
@@ -15,18 +16,20 @@ public:
 	// Sets default values for this character's properties
 	AWPlayerBase();
 
-	/*void OnStartCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;
-	void OnEndCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;*/
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	virtual void EndPlay(const EEndPlayReason::Type EnPlayReason) override;
 
 	void MoveForward(float yValue);
 	void MoveSideways(float xValue);
+	void TurnAtRate(float xRate);
+	void LookAtRate(float yRate);
+
 	void StartCrouch();
 	void StopCrouch();
+
+	void OnFire();
+	void Reload();
 
 
 public:	
@@ -35,36 +38,51 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
-	/*UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Catergoty = Crouch)
-		FVector crouchEyeOffset;
+		
+public:
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Catergoty = Crouch)
-		float crouchSpeed;*/
+	// Mesh Properties
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* HandsMesh;
 
-	// Health
-	
-	// Max amout of health to allow for player
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* Gun;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USceneComponent* MuzzleLocation;
+
+	// Camera Properties
+	UPROPERTY(VisibleDefaultsOnly, Category = Camera)
+		class UCameraComponent* FirstPersonCamera;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Camera)
+		float TurnRate;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Camera)
+		float LookUpRate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		FVector GunOffset;
+
 	UPROPERTY(EditAnywhere)
-	float MaxHealth;
+		int ammo;
 
-	// Current health of playe
-	UPROPERTY(EditAnywhere)
-	float Health;
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class ABullet> Bullet;
 
-	UFUNCTION()
-	void OnRepHealth();
-	
-	// HUD
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class USoundBase* FireSound;
 
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<class UPlayerHud> PlayerHUDClass;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class UAnimMontage* FireAnimation;
 
-	UPROPERTY()
-	class UPlayerHud* PlayerHUD;
+	class UAnimInstance* AnimInstance;
 
-	void UpdateHealth(float HealthDelta);
+	class UWorld* World;
 
-private:
+	class AWPistolBase* Pistol;
+
+	FRotator SpawnRotation;
+	FVector SpawnLocation;
 
 };
