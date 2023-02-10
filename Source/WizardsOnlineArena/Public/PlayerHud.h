@@ -19,7 +19,7 @@ public:
 	// Update HUD wth current health
 	void SetHealth(float CurrentHealth, float MaxHealth);
 
-		// Widget to use to display current health
+	// Widget to use to display current health
 	UPROPERTY(EditAnywhere, meta = (BindWidget));
 	class UProgressBar* HealthBar;
 	
