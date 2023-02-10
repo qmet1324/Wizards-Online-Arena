@@ -64,8 +64,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		FVector GunOffset;
 
-	UPROPERTY(EditAnywhere)
-		int ammo;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int Ammo;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int MaxAmmo;
 
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class ABullet> Bullet;
