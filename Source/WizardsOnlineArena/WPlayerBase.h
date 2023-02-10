@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "WPlayerBase.generated.h"
 
+
 UCLASS()
 class WIZARDSONLINEARENA_API AWPlayerBase : public ACharacter
 {
@@ -15,17 +16,20 @@ public:
 	// Sets default values for this character's properties
 	AWPlayerBase();
 
-	/*void OnStartCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;
-	void OnEndCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;*/
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void MoveForward(float yValue);
 	void MoveSideways(float xValue);
+	void TurnAtRate(float xRate);
+	void LookAtRate(float yRate);
+
 	void StartCrouch();
 	void StopCrouch();
+
+	void OnFire();
+	void Reload();
 
 
 public:	
@@ -34,15 +38,51 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
-	/*UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Catergoty = Crouch)
-		FVector crouchEyeOffset;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Catergoty = Crouch)
-		float crouchSpeed;*/
 		
-private:
+public:
 
-	int health;
+	// Mesh Properties
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* HandsMesh;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* Gun;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USceneComponent* MuzzleLocation;
+
+	// Camera Properties
+	UPROPERTY(VisibleDefaultsOnly, Category = Camera)
+		class UCameraComponent* FirstPersonCamera;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Camera)
+		float TurnRate;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Camera)
+		float LookUpRate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		FVector GunOffset;
+
+	UPROPERTY(EditAnywhere)
+		int ammo;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class ABullet> Bullet;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class USoundBase* FireSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class UAnimMontage* FireAnimation;
+
+	class UAnimInstance* AnimInstance;
+
+	class UWorld* World;
+
+	class AWPistolBase* Pistol;
+
+	FRotator SpawnRotation;
+	FVector SpawnLocation;
 
 };
