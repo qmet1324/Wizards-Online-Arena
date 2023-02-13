@@ -139,7 +139,7 @@ void AWPlayerBase::OnFire()
 	{
 		if (ammo > 0)
 		{
-			if (!GetWorldTimerManager().IsTimerActive(Timer))
+			if (!GetWorldTimerManager().IsTimerActive(TimerFire) && !GetWorldTimerManager().IsTimerActive(TimerReload))
 			{
 				// Code to spawn Porjectlie Object (currently spawning object but not it's mesh)
 				SpawnRotation = GetControlRotation();
@@ -181,7 +181,7 @@ void AWPlayerBase::OnFire()
 				FHitResult HitResult;
 				GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, TraceParams);
 
-				GetWorldTimerManager().SetTimer(Timer, this, &AWPlayerBase::ResetTimer, fireRate, false);
+				GetWorldTimerManager().SetTimer(TimerFire, this, &AWPlayerBase::ResetFireTimer, fireRate, false);
 			}
 		}
 	}
@@ -190,15 +190,23 @@ void AWPlayerBase::OnFire()
 
 void AWPlayerBase::Reload()
 {
-	ammo = 15;
+	if (!GetWorldTimerManager().IsTimerActive(TimerReload))
+	{
+		// TODO
 
-	// TODO
+		// Reload Animation and Sound Effect
 
-	// Reload Animation and Sound Effect
-
+		GetWorldTimerManager().SetTimer(TimerReload, this, &AWPlayerBase::ResetReloadTimer, reloadTime, false);
+	}
 }
 
-void AWPlayerBase::ResetTimer()
+void AWPlayerBase::ResetFireTimer()
 {
-	GetWorldTimerManager().ClearTimer(Timer);
+	GetWorldTimerManager().ClearTimer(TimerFire);
+}
+
+void AWPlayerBase::ResetReloadTimer()
+{
+	ammo = 15;
+	GetWorldTimerManager().ClearTimer(TimerReload);
 }

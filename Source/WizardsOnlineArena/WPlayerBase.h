@@ -30,7 +30,8 @@ protected:
 
 	void OnFire();
 	void Reload();
-	void ResetTimer();
+	void ResetFireTimer();
+	void ResetReloadTimer();
 
 
 public:	
@@ -78,7 +79,10 @@ public:
 		float fireRate;
 
 	UPROPERTY(EditAnywhere)
-		FTimerHandle Timer;
+		FTimerHandle TimerFire;
+
+	UPROPERTY(EditAnywhere)
+		FTimerHandle TimerReload;
 
 	UPROPERTY(EditAnywhere)
 		bool isReloading;
