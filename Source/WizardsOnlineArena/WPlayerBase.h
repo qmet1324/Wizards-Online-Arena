@@ -73,6 +73,15 @@ public:
 	UPROPERTY(EditAnywhere, Category = Weapon)
 		int ammo;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int Ammo;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int MaxAmmo;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float Health;
+
 	UPROPERTY(EditAnywhere, Category = Weapon)
 		int maxAmmo;
 
