@@ -64,13 +64,12 @@ void AWPlayerBase::BeginPlay()
 
 	AnimInstance = HandsMesh->GetAnimInstance();
 
-	ammo = 15;
-
+	maxAmmo = 15;
+	ammo = maxAmmo;
 	damageValue = 20.0f;
-
 	reloadTime = 2.0f;
-
-	fireRate = 0.1f;
+	fireRate = 0.2f;
+	maxRange = 1000.0f;
 }
 
 // Called every frame
@@ -139,7 +138,7 @@ void AWPlayerBase::OnFire()
 	{
 		if (ammo > 0)
 		{
-			if (!GetWorldTimerManager().IsTimerActive(TimerFire) && !GetWorldTimerManager().IsTimerActive(TimerReload))
+			if (!GetWorldTimerManager().IsTimerActive(TimerFire) && !isReloading)
 			{
 				// Code to spawn Porjectlie Object (currently spawning object but not it's mesh)
 				SpawnRotation = GetControlRotation();
@@ -153,6 +152,8 @@ void AWPlayerBase::OnFire()
 					SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
 				}
 
+				ammo--;
+
 				FActorSpawnParameters ActorSpawnParams;
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
@@ -165,24 +166,44 @@ void AWPlayerBase::OnFire()
 					UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 				}
 
-				// Fire Animation
+				// Fire Animation (Not working properly, will be replaced with other animations eventually)
 				if (FireAnimation != NULL && AnimInstance != NULL)
 				{
-					AnimInstance->Montage_Play(FireAnimation, 1.0f);
+					AnimInstance->Montage_Play(FireAnimation, 10.0f);
+				}
+				
+				// Posible Hitscan code? Needs more testing.
+				FVector cameraLocation;
+				FRotator cameraRotation;
+				GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
+				
+				// Calculate the hit trace
+				FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
+
+				//Set up the trace parameters
+				FCollisionQueryParams traceParams;
+				traceParams.AddIgnoredActor(this);
+
+				FHitResult hitResults;
+				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_Visibility, traceParams))
+				{
+					 //TODO (Damage to enemies or bullet marks in walls?)
 				}
 
-				// Lose 1 bullet
-				ammo--;
-				
-				FVector StartLocation = MuzzleLocation->GetSocketLocation(FName("Muzzle"));
-				FVector EndLocation = StartLocation + MuzzleLocation->GetForwardVector() * 1;
-				FCollisionQueryParams TraceParams(FName(TEXT("Trace")), true, this);
-				TraceParams.bTraceComplex = true;
-				TraceParams.bReturnPhysicalMaterial = false;
-				FHitResult HitResult;
-				GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, TraceParams);
+				if (GetWorld() != NULL)
+				{
+					DrawDebugLine(GetWorld(), cameraLocation, raycastTrace, FColor::Blue, false, 10.0f, 0, 5.0f);
+				}
 
 				GetWorldTimerManager().SetTimer(TimerFire, this, &AWPlayerBase::ResetFireTimer, fireRate, false);
+			}
+		}
+
+		else
+		{
+			if (EmptySound != NULL && !isReloading)
+			{
+				UGameplayStatics::PlaySoundAtLocation(this, EmptySound, GetActorLocation());
 			}
 		}
 	}
@@ -191,18 +212,24 @@ void AWPlayerBase::OnFire()
 
 void AWPlayerBase::Reload()
 {
-	if (!GetWorldTimerManager().IsTimerActive(TimerReload))
+	if (ammo != maxAmmo)
 	{
-		// TODO
-
-		// Reload Animation and Sound Effect
-
-		if (FireSound != NULL)
+		if (!GetWorldTimerManager().IsTimerActive(TimerReload))
 		{
-			UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, GetActorLocation());
-		}
+			isReloading = true;
 
-		GetWorldTimerManager().SetTimer(TimerReload, this, &AWPlayerBase::ResetReloadTimer, reloadTime, false);
+			if (FireSound != NULL)
+			{
+				UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, GetActorLocation());
+			}
+
+			if (ReloadAnimation != NULL && AnimInstance != NULL)
+			{
+				AnimInstance->Montage_Play(ReloadAnimation, 1.0f);
+			}
+
+			GetWorldTimerManager().SetTimer(TimerReload, this, &AWPlayerBase::ResetReloadTimer, reloadTime, false);
+		}
 	}
 }
 
@@ -214,5 +241,6 @@ void AWPlayerBase::ResetFireTimer()
 void AWPlayerBase::ResetReloadTimer()
 {
 	ammo = 15;
+	isReloading = false;
 	GetWorldTimerManager().ClearTimer(TimerReload);
 }

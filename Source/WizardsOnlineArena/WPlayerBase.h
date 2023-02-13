@@ -28,7 +28,8 @@ protected:
 	void StartCrouch();
 	void StopCrouch();
 
-	void OnFire();
+	UFUNCTION(BlueprintCallable, category = Fire)
+		void OnFire();
 	void Reload();
 	void ResetFireTimer();
 	void ResetReloadTimer();
@@ -47,14 +48,14 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		class USkeletalMeshComponent* HandsMesh;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Mesh)
 		class USkeletalMeshComponent* Gun;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Mesh)
 		class USceneComponent* MuzzleLocation;
 
 	// Camera Properties
-	UPROPERTY(VisibleDefaultsOnly, Category = Camera)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Camera)
 		class UCameraComponent* FirstPersonCamera;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Camera)
@@ -66,8 +67,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		FVector GunOffset;
 
+	// Gun Properties
 	UPROPERTY(EditAnywhere)
 		int ammo;
+
+	UPROPERTY(EditAnywhere)
+		int maxAmmo;
 
 	UPROPERTY(EditAnywhere)
 		float damageValue;
@@ -87,14 +92,24 @@ public:
 	UPROPERTY(EditAnywhere)
 		bool isAuto;
 
+	UPROPERTY(EditAnywhere)
+		bool isReloading;
+
+	UPROPERTY(EditAnywhere)
+		float maxRange;
+
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class ABullet> Bullet;
 
+	// Sounds and Animations
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		class USoundBase* FireSound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		class UAnimMontage* FireAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class USoundBase* EmptySound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		class USoundBase* ReloadSound;
@@ -104,10 +119,13 @@ public:
 
 	class UAnimInstance* AnimInstance;
 
+	// Render object in world
 	class UWorld* World;
 
+	// Standar Gun Class (Not implemented yet)
 	class AWPistolBase* Pistol;
 
+	// Projectile Spawn Variables
 	FRotator SpawnRotation;
 	FVector SpawnLocation;
 

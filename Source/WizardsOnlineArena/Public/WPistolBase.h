@@ -14,8 +14,10 @@ class WIZARDSONLINEARENA_API AWPistolBase : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AWPistolBase();
-
+	
+	// Placeholders for now, maybe immplement the shooting code in the gun class instead of the player class
 	void Shoot();
+	void Reload();
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,18 +28,35 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	//TODO GUNS CLASSES////////////////
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* Gun;
 
 	UPROPERTY(EditAnywhere)
 		int ammo;
 
 	UPROPERTY(EditAnywhere)
-		float DamageValue;
+		float damageValue;
 
 	UPROPERTY(EditAnywhere)
-		float ReloadTime;
+		float reloadTime;
 
 	UPROPERTY(EditAnywhere)
-		float FireRate;
+		float fireRate;
+
+	UPROPERTY(EditAnywhere)
+		FTimerHandle TimerFire;
+
+	UPROPERTY(EditAnywhere)
+		FTimerHandle TimerReload;
+
+	UPROPERTY(EditAnywhere)
+		bool isAuto;
+
+	UPROPERTY(EditAnywhere)
+		float maxRange;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class ABullet> Bullet;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		class USoundBase* FireSound;
@@ -45,18 +64,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		class UAnimMontage* FireAnimation;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class USkeletalMeshComponent* Gun;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class USoundBase* ReloadSound;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class USceneComponent* MuzzleLocation;
-
-	class UAnimInstance* AnimInstance;
-
-	class UWorld* World;
-
-	FRotator SpawnRotation;
-	FVector SpawnLocation;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class UAnimMontage* ReloadAnimation;
 	//////////////////////////////////
 };
