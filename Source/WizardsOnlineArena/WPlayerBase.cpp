@@ -29,6 +29,9 @@ AWPlayerBase::AWPlayerBase()
 	MaxAmmo = 15;
 	Ammo = MaxAmmo;
 
+	// Player health
+	Health = 100.0f;
+
 	// Setting Up Camera
 	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("First Person Camera"));
 	FirstPersonCamera->SetupAttachment(GetCapsuleComponent());

@@ -70,6 +70,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int MaxAmmo;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float Health;
+
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class ABullet> Bullet;
 
