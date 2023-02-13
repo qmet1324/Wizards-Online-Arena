@@ -85,7 +85,7 @@ public:
 		FTimerHandle TimerReload;
 
 	UPROPERTY(EditAnywhere)
-		bool isReloading;
+		bool isAuto;
 
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class ABullet> Bullet;
@@ -95,6 +95,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		class UAnimMontage* FireAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class USoundBase* ReloadSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class UAnimMontage* ReloadAnimation;
 
 	class UAnimInstance* AnimInstance;
 

@@ -171,8 +171,9 @@ void AWPlayerBase::OnFire()
 					AnimInstance->Montage_Play(FireAnimation, 1.0f);
 				}
 
+				// Lose 1 bullet
 				ammo--;
-
+				
 				FVector StartLocation = MuzzleLocation->GetSocketLocation(FName("Muzzle"));
 				FVector EndLocation = StartLocation + MuzzleLocation->GetForwardVector() * 1;
 				FCollisionQueryParams TraceParams(FName(TEXT("Trace")), true, this);
@@ -195,6 +196,11 @@ void AWPlayerBase::Reload()
 		// TODO
 
 		// Reload Animation and Sound Effect
+
+		if (FireSound != NULL)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, GetActorLocation());
+		}
 
 		GetWorldTimerManager().SetTimer(TimerReload, this, &AWPlayerBase::ResetReloadTimer, reloadTime, false);
 	}
