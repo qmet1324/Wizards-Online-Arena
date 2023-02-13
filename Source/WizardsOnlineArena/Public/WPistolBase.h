@@ -16,8 +16,10 @@ public:
 	AWPistolBase();
 	
 	// Placeholders for now, maybe immplement the shooting code in the gun class instead of the player class
-	void Shoot();
-	void Reload();
+	void Firing();
+	void Reloading();
+	void FireTimer();
+	void ReloadTimer();
 
 protected:
 	// Called when the game starts or when spawned
@@ -27,12 +29,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	//TODO GUNS CLASSES////////////////
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class USkeletalMeshComponent* Gun;
+		class UStaticMeshComponent* Gun;
 
 	UPROPERTY(EditAnywhere)
 		int ammo;
+
+	UPROPERTY(EditAnywhere)
+		int maxAmmo;
 
 	UPROPERTY(EditAnywhere)
 		float damageValue;
@@ -44,30 +48,37 @@ public:
 		float fireRate;
 
 	UPROPERTY(EditAnywhere)
-		FTimerHandle TimerFire;
+		FTimerHandle timerFire;
 
 	UPROPERTY(EditAnywhere)
-		FTimerHandle TimerReload;
+		FTimerHandle timerReload;
 
 	UPROPERTY(EditAnywhere)
 		bool isAuto;
 
 	UPROPERTY(EditAnywhere)
+		bool isReloading;
+
+	UPROPERTY(EditAnywhere)
 		float maxRange;
 
-	UPROPERTY(EditDefaultsOnly, Category = Projectile)
-		TSubclassOf<class ABullet> Bullet;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class USoundBase* fireSound;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class USoundBase* FireSound;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class UAnimMontage* fireAnimation;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class UAnimMontage* FireAnimation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class USoundBase* emptySound;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class USoundBase* ReloadSound;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class USoundBase* reloadSound;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class UAnimMontage* ReloadAnimation;
-	//////////////////////////////////
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class UAnimMontage* reloadAnimation;
+
+	class UAnimInstance* AnimInstance;
+
+	// Render object in world
+	class UWorld* World;
 };

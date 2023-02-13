@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
+#include "WPistolBase.h"
 
 #include "Bullet.h"
 #include "Animation/AnimInstance.h"
@@ -46,11 +47,15 @@ AWPlayerBase::AWPlayerBase()
 	Gun->bCastDynamicShadow = false;
 	Gun->CastShadow = false;
 
+	// Muzzle code, its currently used for a projectile based gun, but we can use it in the future
+	// for displaying effects coming directly from the muzzle of the gun.
 	MuzzleLocation = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Muzzle Location"));
 	MuzzleLocation->SetupAttachment(Gun);
 	MuzzleLocation->SetRelativeLocation(FVector(-0.2f, 48.4f, -10.6f));
 
 	GunOffset = FVector(100.0f, 0.0f, 10.0f);
+
+	//Pistol = CreateDefaultSubobject<AWPistolBase>(TEXT("Current Pistol"));
 }
 
 // Called when the game starts or when spawned
@@ -97,7 +102,7 @@ void AWPlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction(TEXT("Crouch"), IE_Released, this, &AWPlayerBase::StopCrouch);
 
 	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &AWPlayerBase::OnFire);
-	PlayerInputComponent->BindAction(TEXT("Reload"), IE_Pressed, this, &AWPlayerBase::Reload);
+	PlayerInputComponent->BindAction(TEXT("Reload"), IE_Pressed, this, &AWPlayerBase::OnReload);
 }
 
 // Movement Calls
@@ -138,45 +143,35 @@ void AWPlayerBase::OnFire()
 	{
 		if (ammo > 0)
 		{
-			if (!GetWorldTimerManager().IsTimerActive(TimerFire) && !isReloading)
+			if (!GetWorldTimerManager().IsTimerActive(timerFire) && !isReloading)
 			{
 				// Code to spawn Porjectlie Object (currently spawning object but not it's mesh)
-				SpawnRotation = GetControlRotation();
-
-				if (MuzzleLocation != nullptr)
-				{
-					SpawnLocation = MuzzleLocation->GetComponentLocation();
-				}
-				else
-				{
-					SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
-				}
-
-				ammo--;
-
-				FActorSpawnParameters ActorSpawnParams;
-				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-				World->SpawnActor<ABullet>(Bullet, SpawnLocation, SpawnRotation, ActorSpawnParams);
+				
+				//SpawnRotation = GetControlRotation();
+				//
+				//if (MuzzleLocation != nullptr)
+				//{
+				//	SpawnLocation = MuzzleLocation->GetComponentLocation();
+				//}
+				//else
+				//{
+				//	SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
+				//}
+				//
+				//
+				//
+				//FActorSpawnParameters ActorSpawnParams;
+				//ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+				//
+				//World->SpawnActor<ABullet>(Bullet, SpawnLocation, SpawnRotation, ActorSpawnParams);
+				
 				//------------------------------------------------------------------------------//
 
-				// Fire Sound Effect
-				if (FireSound != NULL)
-				{
-					UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
-				}
-
-				// Fire Animation (Not working properly, will be replaced with other animations eventually)
-				if (FireAnimation != NULL && AnimInstance != NULL)
-				{
-					AnimInstance->Montage_Play(FireAnimation, 10.0f);
-				}
-				
 				// Posible Hitscan code? Needs more testing.
 				FVector cameraLocation;
 				FRotator cameraRotation;
 				GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
-				
+
 				// Calculate the hit trace
 				FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
 
@@ -187,60 +182,77 @@ void AWPlayerBase::OnFire()
 				FHitResult hitResults;
 				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_Visibility, traceParams))
 				{
-					 //TODO (Damage to enemies or bullet marks in walls?)
+					//TODO (Damage to enemies or bullet marks in walls?)
 				}
 
 				if (GetWorld() != NULL)
 				{
 					DrawDebugLine(GetWorld(), cameraLocation, raycastTrace, FColor::Blue, false, 10.0f, 0, 5.0f);
 				}
+				
+				// Fire Sound Effect
+				if (fireSound != NULL)
+				{
+					UGameplayStatics::PlaySoundAtLocation(this, fireSound, GetActorLocation());
+				}
 
-				GetWorldTimerManager().SetTimer(TimerFire, this, &AWPlayerBase::ResetFireTimer, fireRate, false);
+				// Fire Animation (Not working properly, will be replaced with other animations eventually)
+				if (fireAnimation != NULL && AnimInstance != NULL)
+				{
+					AnimInstance->Montage_Play(fireAnimation, 10.0f);
+				}
+
+				ammo--;
+
+				GetWorldTimerManager().SetTimer(timerFire, this, &AWPlayerBase::ResetFireTimer, fireRate, false);
 			}
 		}
 
 		else
 		{
-			if (EmptySound != NULL && !isReloading)
+			if (emptySound != NULL && !isReloading)
 			{
-				UGameplayStatics::PlaySoundAtLocation(this, EmptySound, GetActorLocation());
+				UGameplayStatics::PlaySoundAtLocation(this, emptySound, GetActorLocation());
 			}
 		}
 	}
 
+	//Pistol->Firing();
 }
 
-void AWPlayerBase::Reload()
+void AWPlayerBase::OnReload()
 {
 	if (ammo != maxAmmo)
 	{
-		if (!GetWorldTimerManager().IsTimerActive(TimerReload))
+		if (!GetWorldTimerManager().IsTimerActive(timerReload))
 		{
 			isReloading = true;
 
-			if (FireSound != NULL)
+			if (fireSound != NULL)
 			{
-				UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, GetActorLocation());
+				UGameplayStatics::PlaySoundAtLocation(this, reloadSound, GetActorLocation());
 			}
 
-			if (ReloadAnimation != NULL && AnimInstance != NULL)
+			if (reloadAnimation != NULL && AnimInstance != NULL)
 			{
-				AnimInstance->Montage_Play(ReloadAnimation, 1.0f);
+				AnimInstance->Montage_Play(reloadAnimation, 1.0f);
 			}
 
-			GetWorldTimerManager().SetTimer(TimerReload, this, &AWPlayerBase::ResetReloadTimer, reloadTime, false);
+			GetWorldTimerManager().SetTimer(timerReload, this, &AWPlayerBase::ResetReloadTimer, reloadTime, false);
 		}
 	}
+
+	//Pistol->Reloading();
 }
 
 void AWPlayerBase::ResetFireTimer()
 {
-	GetWorldTimerManager().ClearTimer(TimerFire);
+	GetWorldTimerManager().ClearTimer(timerFire);
 }
 
 void AWPlayerBase::ResetReloadTimer()
 {
-	ammo = 15;
+	ammo = maxAmmo;
 	isReloading = false;
-	GetWorldTimerManager().ClearTimer(TimerReload);
+	GetWorldTimerManager().ClearTimer(timerReload);
 }

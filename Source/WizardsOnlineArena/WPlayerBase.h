@@ -28,9 +28,8 @@ protected:
 	void StartCrouch();
 	void StopCrouch();
 
-	UFUNCTION(BlueprintCallable, category = Fire)
-		void OnFire();
-	void Reload();
+	void OnFire();
+	void OnReload();
 	void ResetFireTimer();
 	void ResetReloadTimer();
 
@@ -67,63 +66,63 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		FVector GunOffset;
 
-	// Gun Properties
-	UPROPERTY(EditAnywhere)
+	// Gun Class (Not Implemented Yet)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Weapon)
+		class AWPistolBase* Pistol;
+
+	UPROPERTY(EditAnywhere, Category = Weapon)
 		int ammo;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Weapon)
 		int maxAmmo;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Weapon)
 		float damageValue;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Weapon)
 		float reloadTime;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Weapon)
 		float fireRate;
 
-	UPROPERTY(EditAnywhere)
-		FTimerHandle TimerFire;
+	UPROPERTY(EditAnywhere, Category = Weapon)
+		FTimerHandle timerFire;
 
-	UPROPERTY(EditAnywhere)
-		FTimerHandle TimerReload;
+	UPROPERTY(EditAnywhere, Category = Weapon)
+		FTimerHandle timerReload;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Weapon)
 		bool isAuto;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Weapon)
 		bool isReloading;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Weapon)
 		float maxRange;
 
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class ABullet> Bullet;
 
 	// Sounds and Animations
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class USoundBase* FireSound;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class USoundBase* fireSound;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class UAnimMontage* FireAnimation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class UAnimMontage* fireAnimation;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class USoundBase* EmptySound;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class USoundBase* emptySound;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class USoundBase* ReloadSound;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class USoundBase* reloadSound;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class UAnimMontage* ReloadAnimation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class UAnimMontage* reloadAnimation;
 
 	class UAnimInstance* AnimInstance;
 
 	// Render object in world
 	class UWorld* World;
-
-	// Standar Gun Class (Not implemented yet)
-	class AWPistolBase* Pistol;
 
 	// Projectile Spawn Variables
 	FRotator SpawnRotation;
