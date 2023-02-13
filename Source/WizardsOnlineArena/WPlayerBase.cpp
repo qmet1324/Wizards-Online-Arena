@@ -25,6 +25,13 @@ AWPlayerBase::AWPlayerBase()
 	TurnRate = 45.0f;
 	LookUpRate = 45.0f;
 
+	// Ammo
+	MaxAmmo = 15;
+	Ammo = MaxAmmo;
+
+	// Player health
+	Health = 100.0f;
+
 	// Setting Up Camera
 	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("First Person Camera"));
 	FirstPersonCamera->SetupAttachment(GetCapsuleComponent());
@@ -63,8 +70,6 @@ void AWPlayerBase::BeginPlay()
 	World = GetWorld();
 
 	AnimInstance = HandsMesh->GetAnimInstance();
-
-	ammo = 15;
 }
 
 // Called every frame
@@ -131,7 +136,7 @@ void AWPlayerBase::OnFire()
 {
 	if (World != NULL)
 	{
-		if (ammo > 0)
+		if (Ammo > 0)
 		{
 			SpawnRotation = GetControlRotation();
 
@@ -159,7 +164,7 @@ void AWPlayerBase::OnFire()
 				AnimInstance->Montage_Play(FireAnimation, 1.0f);
 			}
 
-			ammo--;
+			Ammo--;
 		}
 	}
 
@@ -167,5 +172,5 @@ void AWPlayerBase::OnFire()
 
 void AWPlayerBase::Reload()
 {
-	ammo = 15;
+	Ammo = 15;
 }
