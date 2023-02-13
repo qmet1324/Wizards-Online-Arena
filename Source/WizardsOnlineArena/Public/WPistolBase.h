@@ -14,6 +14,12 @@ class WIZARDSONLINEARENA_API AWPistolBase : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AWPistolBase();
+	
+	// Placeholders for now, maybe immplement the shooting code in the gun class instead of the player class
+	void Firing();
+	void Reloading();
+	void FireTimer();
+	void ReloadTimer();
 
 protected:
 	// Called when the game starts or when spawned
@@ -23,26 +29,56 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	//TODO GUNS CLASSES////////////////
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class UStaticMeshComponent* Gun;
 
 	UPROPERTY(EditAnywhere)
 		int ammo;
 
-	/*UPROPERTY(EditDefaultsOnly, Category = Projectile)
-		TSubclassOf<class ABullet> Bullet;
+	UPROPERTY(EditAnywhere)
+		int maxAmmo;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class USoundBase* FireSound;
+	UPROPERTY(EditAnywhere)
+		float damageValue;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class UAnimMontage* FireAnimation;
+	UPROPERTY(EditAnywhere)
+		float reloadTime;
+
+	UPROPERTY(EditAnywhere)
+		float fireRate;
+
+	UPROPERTY(EditAnywhere)
+		FTimerHandle timerFire;
+
+	UPROPERTY(EditAnywhere)
+		FTimerHandle timerReload;
+
+	UPROPERTY(EditAnywhere)
+		bool isAuto;
+
+	UPROPERTY(EditAnywhere)
+		bool isReloading;
+
+	UPROPERTY(EditAnywhere)
+		float maxRange;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class USoundBase* fireSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class UAnimMontage* fireAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class USoundBase* emptySound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class USoundBase* reloadSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+		class UAnimMontage* reloadAnimation;
 
 	class UAnimInstance* AnimInstance;
 
+	// Render object in world
 	class UWorld* World;
-
-	FRotator SpawnRotation;
-	FVector SpawnLocation;*/
-
-	//////////////////////////////////
 };
