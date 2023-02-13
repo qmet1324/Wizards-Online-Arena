@@ -31,7 +31,7 @@ AWPlayerBase::AWPlayerBase()
 	Ammo = MaxAmmo;
 
 	// Player health
-	Health = 100.0f;
+	Health = 50.0f;
 
 	// Setting Up Camera
 	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("First Person Camera"));
@@ -76,8 +76,6 @@ void AWPlayerBase::BeginPlay()
 
 	AnimInstance = HandsMesh->GetAnimInstance();
 
-	maxAmmo = 15;
-	ammo = maxAmmo;
 	damageValue = 20.0f;
 	reloadTime = 2.0f;
 	fireRate = 0.2f;
@@ -209,7 +207,6 @@ void AWPlayerBase::OnFire()
 					AnimInstance->Montage_Play(fireAnimation, 10.0f);
 				}
 
-				ammo--;
 				Ammo--;
 
 				GetWorldTimerManager().SetTimer(timerFire, this, &AWPlayerBase::ResetFireTimer, fireRate, false);
@@ -222,21 +219,6 @@ void AWPlayerBase::OnFire()
 			{
 				UGameplayStatics::PlaySoundAtLocation(this, emptySound, GetActorLocation());
 			}
-
-			FActorSpawnParameters ActorSpawnParams;
-			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-			World->SpawnActor<ABullet>(Bullet, SpawnLocation, SpawnRotation, ActorSpawnParams);
-
-			if (FireSound != NULL)
-			{
-				UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
-			}
-
-			if (FireAnimation != NULL && AnimInstance != NULL)
-			{
-				AnimInstance->Montage_Play(FireAnimation, 1.0f);
-			}
 		}
 	}
 
@@ -246,13 +228,13 @@ void AWPlayerBase::OnFire()
 void AWPlayerBase::OnReload()
 {
 
-	if (ammo != maxAmmo)
+	if (Ammo != MaxAmmo)
 	{
 		if (!GetWorldTimerManager().IsTimerActive(timerReload))
 		{
 			isReloading = true;
 
-			if (fireSound != NULL)
+			if (reloadSound != NULL)
 			{
 				UGameplayStatics::PlaySoundAtLocation(this, reloadSound, GetActorLocation());
 			}
@@ -276,10 +258,7 @@ void AWPlayerBase::ResetFireTimer()
 
 void AWPlayerBase::ResetReloadTimer()
 {
-	ammo = maxAmmo;
 	Ammo = MaxAmmo;
 	isReloading = false;
 	GetWorldTimerManager().ClearTimer(timerReload);
-}
-	
 }

@@ -70,9 +70,6 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Weapon)
 		class AWPistolBase* Pistol;
 
-	UPROPERTY(EditAnywhere, Category = Weapon)
-		int ammo;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int Ammo;
 
@@ -81,9 +78,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float Health;
-
-	UPROPERTY(EditAnywhere, Category = Weapon)
-		int maxAmmo;
 
 	UPROPERTY(EditAnywhere, Category = Weapon)
 		float damageValue;
