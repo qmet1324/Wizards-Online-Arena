@@ -15,12 +15,6 @@ AMyPickup::AMyPickup()
 
 	PickupMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PickupMesh"));
 	PickupMesh->AttachToComponent(PickupRoot, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-
-	PickupBox = CreateDefaultSubobject<UBoxComponent>(TEXT("PickupBox"));
-	PickupBox->SetWorldScale3D(FVector(1.0f, 1.0f, 1.0f));
-	PickupBox->SetGenerateOverlapEvents(true);
-	PickupBox->OnComponentBeginOverlap.AddDynamic(this, &AMyPickup::OnPlayerEnterPickupBox);
-	PickupBox->AttachToComponent(PickupRoot, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 }
 
 // Called when the game starts or when spawned
@@ -35,10 +29,5 @@ void AMyPickup::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-}
-
-void AMyPickup::OnPlayerEnterPickupBox(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool fFromSweep, const FHitResult& SweepResult)
-{
-	Destroy();
 }
 
