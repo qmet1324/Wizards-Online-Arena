@@ -30,6 +30,7 @@ protected:
 
 	void OnFire();
 	void Reload();
+	void ResetTimer();
 
 
 public:	
@@ -66,6 +67,21 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		int ammo;
+
+	UPROPERTY(EditAnywhere)
+		float damageValue;
+
+	UPROPERTY(EditAnywhere)
+		float reloadTime;
+
+	UPROPERTY(EditAnywhere)
+		float fireRate;
+
+	UPROPERTY(EditAnywhere)
+		FTimerHandle Timer;
+
+	UPROPERTY(EditAnywhere)
+		bool isReloading;
 
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class ABullet> Bullet;

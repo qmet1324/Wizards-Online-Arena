@@ -15,6 +15,8 @@ public:
 	// Sets default values for this actor's properties
 	AWPistolBase();
 
+	void Shoot();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -28,8 +30,14 @@ public:
 	UPROPERTY(EditAnywhere)
 		int ammo;
 
-	/*UPROPERTY(EditDefaultsOnly, Category = Projectile)
-		TSubclassOf<class ABullet> Bullet;
+	UPROPERTY(EditAnywhere)
+		float DamageValue;
+
+	UPROPERTY(EditAnywhere)
+		float ReloadTime;
+
+	UPROPERTY(EditAnywhere)
+		float FireRate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		class USoundBase* FireSound;
@@ -37,12 +45,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		class UAnimMontage* FireAnimation;
 
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USkeletalMeshComponent* Gun;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USceneComponent* MuzzleLocation;
+
 	class UAnimInstance* AnimInstance;
 
 	class UWorld* World;
 
 	FRotator SpawnRotation;
-	FVector SpawnLocation;*/
+	FVector SpawnLocation;
 
 	//////////////////////////////////
 };
