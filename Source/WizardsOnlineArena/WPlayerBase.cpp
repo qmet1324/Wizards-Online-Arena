@@ -63,8 +63,6 @@ AWPlayerBase::AWPlayerBase()
 	GunOffset = FVector(100.0f, 0.0f, 10.0f);
 
 	Pistol = CreateDefaultSubobject<AWPistolBase>(TEXT("Current Pistol"));
-	Pistol->gunRoot->SetupAttachment(Gun);
-	//Pistol->Gun = Gun;
 }
 
 // Called when the game starts or when spawned
@@ -146,91 +144,90 @@ void AWPlayerBase::StopCrouch()
 
 void AWPlayerBase::OnFire()
 {
-	//if (World != NULL)
-	//{
-	//	if (Ammo > 0)
-	//	{
-	//		if (!GetWorldTimerManager().IsTimerActive(timerFire) && !isReloading)
-	//		{
-	//			// Code to spawn Porjectlie Object (currently spawning object but not it's mesh)
-	//			
-	//			//SpawnRotation = GetControlRotation();
-	//			//
-	//			//if (MuzzleLocation != nullptr)
-	//			//{
-	//			//	SpawnLocation = MuzzleLocation->GetComponentLocation();
-	//			//}
-	//			//else
-	//			//{
-	//			//	SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
-	//			//}
-	//			//
-	//			//
-	//			//
-	//			//FActorSpawnParameters ActorSpawnParams;
-	//			//ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	//			//
-	//			//World->SpawnActor<ABullet>(Bullet, SpawnLocation, SpawnRotation, ActorSpawnParams);
-	//			
-	//			//------------------------------------------------------------------------------//
+	if (World != NULL)
+	{
+		if (Ammo > 0)
+		{
+			if (!GetWorldTimerManager().IsTimerActive(timerFire) && !isReloading)
+			{
+				// Code to spawn Porjectlie Object (currently spawning object but not it's mesh)
+				
+				//SpawnRotation = GetControlRotation();
+				//
+				//if (MuzzleLocation != nullptr)
+				//{
+				//	SpawnLocation = MuzzleLocation->GetComponentLocation();
+				//}
+				//else
+				//{
+				//	SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
+				//}
+				//
+				//
+				//
+				//FActorSpawnParameters ActorSpawnParams;
+				//ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+				//
+				//World->SpawnActor<ABullet>(Bullet, SpawnLocation, SpawnRotation, ActorSpawnParams);
+				
+				//------------------------------------------------------------------------------//
 
-	//			// Posible Hitscan code? Needs more testing.
-	//			FVector cameraLocation;
-	//			FRotator cameraRotation;
-	//			GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
+				// Posible Hitscan code? Needs more testing.
+				FVector cameraLocation;
+				FRotator cameraRotation;
+				GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
 
-	//			// Calculate the hit trace
-	//			FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
+				// Calculate the hit trace
+				FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
 
-	//			//Set up the trace parameters
-	//			FCollisionQueryParams traceParams;
-	//			traceParams.AddIgnoredActor(this);
+				//Set up the trace parameters
+				FCollisionQueryParams traceParams;
+				traceParams.AddIgnoredActor(this);
 
-	//			FHitResult hitResults;
-	//			if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_Visibility, traceParams))
-	//			{
-	//				//TODO (Damage to enemies or bullet marks in walls?)
-	//			}
+				FHitResult hitResults;
+				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_Visibility, traceParams))
+				{
+					//TODO (Damage to enemies or bullet marks in walls?)
+				}
 
-	//			if (GetWorld() != NULL)
-	//			{
-	//				DrawDebugLine(GetWorld(), cameraLocation, raycastTrace, FColor::Blue, false, 10.0f, 0, 5.0f);
-	//			}
-	//			
-	//			// Fire Sound Effect
-	//			if (fireSound != NULL)
-	//			{
-	//				UGameplayStatics::PlaySoundAtLocation(this, fireSound, GetActorLocation());
-	//			}
+				if (GetWorld() != NULL)
+				{
+					DrawDebugLine(GetWorld(), cameraLocation, raycastTrace, FColor::Blue, false, 10.0f, 0, 5.0f);
+				}
+				
+				// Fire Sound Effect
+				if (fireSound != NULL)
+				{
+					UGameplayStatics::PlaySoundAtLocation(this, fireSound, GetActorLocation());
+				}
 
-	//			// Fire Animation (Not working properly, will be replaced with other animations eventually)
-	//			if (fireAnimation != NULL && AnimInstance != NULL)
-	//			{
-	//				AnimInstance->Montage_Play(fireAnimation, 10.0f);
-	//			}
+				// Fire Animation (Not working properly, will be replaced with other animations eventually)
+				if (fireAnimation != NULL && AnimInstance != NULL)
+				{
+					AnimInstance->Montage_Play(fireAnimation, 10.0f);
+				}
 
-	//			Ammo--;
+				Ammo--;
 
-	//			GetWorldTimerManager().SetTimer(timerFire, this, &AWPlayerBase::ResetFireTimer, fireRate, false);
-	//		}
-	//	}
+				GetWorldTimerManager().SetTimer(timerFire, this, &AWPlayerBase::ResetFireTimer, fireRate, false);
+			}
+		}
 
-	//	else
-	//	{
-	//		if (emptySound != NULL && !isReloading)
-	//		{
-	//			UGameplayStatics::PlaySoundAtLocation(this, emptySound, GetActorLocation());
-	//		}
-	//	}
-	//}
+		else
+		{
+			if (emptySound != NULL && !isReloading)
+			{
+				UGameplayStatics::PlaySoundAtLocation(this, emptySound, GetActorLocation());
+			}
+		}
+	}
 
-	Pistol->Firing();
 }
 
 void AWPlayerBase::OnReload()
 {
 
-	/*if (Ammo != MaxAmmo)
+	if (Ammo != MaxAmmo)
 	{
 		if (!GetWorldTimerManager().IsTimerActive(timerReload))
 		{
@@ -248,9 +245,7 @@ void AWPlayerBase::OnReload()
 
 			GetWorldTimerManager().SetTimer(timerReload, this, &AWPlayerBase::ResetReloadTimer, reloadTime, false);
 		}
-	}*/
-
-	Pistol->Reloading();
+	}
 }
 
 void AWPlayerBase::ResetFireTimer()
