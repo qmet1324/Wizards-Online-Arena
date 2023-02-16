@@ -4,6 +4,7 @@
 #include "WPlayerBase.h"
 
 #include "Camera/CameraComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "WPistolBase.h"
@@ -48,21 +49,28 @@ AWPlayerBase::AWPlayerBase()
 	HandsMesh->AddRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
 	HandsMesh->AddRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
 
-	// Setting up the gun 
-	Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Gun"));
-	Gun->SetOnlyOwnerSee(true);
-	Gun->bCastDynamicShadow = false;
-	Gun->CastShadow = false;
+	// Previous Code to load up Gun. Leaving it for refrence
 
-	// Muzzle code, its currently used for a projectile based gun, but we can use it in the future
-	// for displaying effects coming directly from the muzzle of the gun.
-	MuzzleLocation = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Muzzle Location"));
-	MuzzleLocation->SetupAttachment(Gun);
-	MuzzleLocation->SetRelativeLocation(FVector(-0.2f, 48.4f, -10.6f));
+			// Setting up the gun 
+			/*Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Gun"));
+			Gun->SetOnlyOwnerSee(true);
+			Gun->bCastDynamicShadow = false;
+			Gun->CastShadow = false;*/
+			
+			// Muzzle code, its currently used for a projectile based gun, but we can use it in the future
+			// for displaying effects coming directly from the muzzle of the gun.
+			//MuzzleLocation = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Muzzle Location"));
+			//MuzzleLocation->SetupAttachment(Gun);
+			//MuzzleLocation->SetRelativeLocation(FVector(-0.2f, 48.4f, -10.6f));
 
-	GunOffset = FVector(100.0f, 0.0f, 10.0f);
+			// GunOffset = FVector(100.0f, 0.0f, 10.0f);
 
-	Pistol = CreateDefaultSubobject<AWPistolBase>(TEXT("Current Pistol"));
+	Pistol = AWPistolBase::StaticClass();
+
+	Weapon = CreateDefaultSubobject<UChildActorComponent>(TEXT("Weapon"));
+	Weapon->SetChildActorClass(Pistol);
+	Weapon->CreateChildActor();
+	Weapon->SetupAttachment(HandsMesh);
 }
 
 // Called when the game starts or when spawned
@@ -70,7 +78,8 @@ void AWPlayerBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Gun->AttachToComponent(HandsMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("GripPoint"));
+	//Gun->AttachToComponent(HandsMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("GripPoint"));
+	//Weapon->AttachToComponent(HandsMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("GripPoint"));
 
 	World = GetWorld();
 
@@ -121,7 +130,7 @@ void AWPlayerBase::MoveSideways(float xMove)
 	AddMovementInput(GetActorRightVector() * xMove);
 }
 
-// Camera Calls (Smoother camera)
+// Camera Calls (Add Turn Rates)
 void AWPlayerBase::TurnAtRate(float xRate)
 {
 	//TODO
@@ -144,90 +153,92 @@ void AWPlayerBase::StopCrouch()
 
 void AWPlayerBase::OnFire()
 {
+	//if (World != NULL)
+	//{
+	//	if (Ammo > 0)
+	//	{
+	//		if (!GetWorldTimerManager().IsTimerActive(timerFire) && !isReloading)
+	//		{
+	//			// Code to spawn Porjectlie Object (currently spawning object but not it's mesh)
+	//			
+	//			//SpawnRotation = GetControlRotation();
+	//			//
+	//			//if (MuzzleLocation != nullptr)
+	//			//{
+	//			//	SpawnLocation = MuzzleLocation->GetComponentLocation();
+	//			//}
+	//			//else
+	//			//{
+	//			//	SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
+	//			//}
+	//			//
+	//			//FActorSpawnParameters ActorSpawnParams;
+	//			//ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	//			//
+	//			//World->SpawnActor<ABullet>(Bullet, SpawnLocation, SpawnRotation, ActorSpawnParams);
+	//			
+	//			//------------------------------------------------------------------------------//
+
+	//			// Posible Hitscan code? Needs more testing.
+	//			FVector cameraLocation;
+	//			FRotator cameraRotation;
+	//			GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
+
+	//			// Calculate the hit trace
+	//			FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
+
+	//			//Set up the trace parameters
+	//			FCollisionQueryParams traceParams;
+	//			traceParams.AddIgnoredActor(this);
+
+	//			FHitResult hitResults;
+	//			if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_Visibility, traceParams))
+	//			{
+	//				//TODO (Damage to enemies or bullet marks in walls?)
+	//			}
+
+	//			if (GetWorld() != NULL)
+	//			{
+	//				DrawDebugLine(GetWorld(), cameraLocation, raycastTrace, FColor::Blue, false, 10.0f, 0, 5.0f);
+	//			}
+	//			
+	//			// Fire Sound Effect
+	//			if (fireSound != NULL)
+	//			{
+	//				UGameplayStatics::PlaySoundAtLocation(this, fireSound, GetActorLocation());
+	//			}
+
+	//			// Fire Animation (Not working properly, will be replaced with other animations eventually)
+	//			if (fireAnimation != NULL && AnimInstance != NULL)
+	//			{
+	//				AnimInstance->Montage_Play(fireAnimation, 10.0f);
+	//			}
+
+	//			Ammo--;
+
+	//			GetWorldTimerManager().SetTimer(timerFire, this, &AWPlayerBase::ResetFireTimer, fireRate, false);
+	//		}
+	//	}
+
+	//	else
+	//	{
+	//		if (emptySound != NULL && !isReloading)
+	//		{
+	//			UGameplayStatics::PlaySoundAtLocation(this, emptySound, GetActorLocation());
+	//		}
+	//	}
+	//}
+
 	if (World != NULL)
 	{
-		if (Ammo > 0)
-		{
-			if (!GetWorldTimerManager().IsTimerActive(timerFire) && !isReloading)
-			{
-				// Code to spawn Porjectlie Object (currently spawning object but not it's mesh)
-				
-				//SpawnRotation = GetControlRotation();
-				//
-				//if (MuzzleLocation != nullptr)
-				//{
-				//	SpawnLocation = MuzzleLocation->GetComponentLocation();
-				//}
-				//else
-				//{
-				//	SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
-				//}
-				//
-				//
-				//
-				//FActorSpawnParameters ActorSpawnParams;
-				//ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-				//
-				//World->SpawnActor<ABullet>(Bullet, SpawnLocation, SpawnRotation, ActorSpawnParams);
-				
-				//------------------------------------------------------------------------------//
-
-				// Posible Hitscan code? Needs more testing.
-				FVector cameraLocation;
-				FRotator cameraRotation;
-				GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
-
-				// Calculate the hit trace
-				FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
-
-				//Set up the trace parameters
-				FCollisionQueryParams traceParams;
-				traceParams.AddIgnoredActor(this);
-
-				FHitResult hitResults;
-				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_Visibility, traceParams))
-				{
-					//TODO (Damage to enemies or bullet marks in walls?)
-				}
-
-				if (GetWorld() != NULL)
-				{
-					DrawDebugLine(GetWorld(), cameraLocation, raycastTrace, FColor::Blue, false, 10.0f, 0, 5.0f);
-				}
-				
-				// Fire Sound Effect
-				if (fireSound != NULL)
-				{
-					UGameplayStatics::PlaySoundAtLocation(this, fireSound, GetActorLocation());
-				}
-
-				// Fire Animation (Not working properly, will be replaced with other animations eventually)
-				if (fireAnimation != NULL && AnimInstance != NULL)
-				{
-					AnimInstance->Montage_Play(fireAnimation, 10.0f);
-				}
-
-				Ammo--;
-
-				GetWorldTimerManager().SetTimer(timerFire, this, &AWPlayerBase::ResetFireTimer, fireRate, false);
-			}
-		}
-
-		else
-		{
-			if (emptySound != NULL && !isReloading)
-			{
-				UGameplayStatics::PlaySoundAtLocation(this, emptySound, GetActorLocation());
-			}
-		}
+		((AWPistolBase*)Weapon->GetChildActor())->Firing();
 	}
-
 }
 
 void AWPlayerBase::OnReload()
 {
 
-	if (Ammo != MaxAmmo)
+	/*if (Ammo != MaxAmmo)
 	{
 		if (!GetWorldTimerManager().IsTimerActive(timerReload))
 		{
@@ -245,6 +256,11 @@ void AWPlayerBase::OnReload()
 
 			GetWorldTimerManager().SetTimer(timerReload, this, &AWPlayerBase::ResetReloadTimer, reloadTime, false);
 		}
+	}*/
+
+	if (World != NULL)
+	{
+		((AWPistolBase*)Weapon->GetChildActor())->Reloading();
 	}
 }
 

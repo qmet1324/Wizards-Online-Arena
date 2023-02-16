@@ -68,7 +68,10 @@ public:
 
 	// Gun Class (Not Implemented Yet)
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Weapon)
-		class AWPistolBase* Pistol;
+		TSubclassOf<class AWPistolBase>Pistol;
+
+	UPROPERTY(VisibleDefaultsOnly)
+		class UChildActorComponent* Weapon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int Ammo;

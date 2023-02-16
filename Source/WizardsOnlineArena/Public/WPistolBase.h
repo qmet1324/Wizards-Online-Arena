@@ -35,10 +35,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class UStaticMeshComponent* Gun;
-
-	UPROPERTY(EditAnywhere)
-		USceneComponent* gunRoot;
+		class UStaticMeshComponent* GunMesh;
 
 	UPROPERTY(EditAnywhere, Category = GunProperty)
 		int ammo;

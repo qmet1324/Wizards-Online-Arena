@@ -3,6 +3,7 @@
 
 #include "WPistolBase.h"
 
+#include "Components/StaticMeshComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -12,13 +13,9 @@ AWPistolBase::AWPistolBase()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	gunRoot = CreateDefaultSubobject<USceneComponent>(TEXT("Gun Root"));
-	RootComponent = gunRoot;
-
-	Gun = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Gun"));
-	Gun->SetOnlyOwnerSee(true);
-	Gun->bCastDynamicShadow = false;
-	Gun->CastShadow = false;
+	GunMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Gun"));
+	GunMesh->bCastDynamicShadow = false;
+	GunMesh->CastShadow = false;
 
 	maxAmmo = 15;
 	ammo = maxAmmo;
