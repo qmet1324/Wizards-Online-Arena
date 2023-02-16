@@ -16,7 +16,10 @@ AWPistolBase::AWPistolBase()
 	GunMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Gun"));
 	GunMesh->bCastDynamicShadow = false;
 	GunMesh->CastShadow = false;
-
+	FString meshPath = TEXT("Wizards-Online-Arena/Content/WizardOnlineArena/Models/WOA_pistol.uasset");
+	UStaticMesh* staticMesh = LoadObject<UStaticMesh>(nullptr, *meshPath);
+	GunMesh->SetStaticMesh(staticMesh);
+	
 	maxAmmo = 15;
 	ammo = maxAmmo;
 	damageValue = 20.0f;

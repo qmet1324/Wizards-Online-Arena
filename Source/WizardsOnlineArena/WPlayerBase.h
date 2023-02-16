@@ -30,8 +30,6 @@ protected:
 
 	void OnFire();
 	void OnReload();
-	void ResetFireTimer();
-	void ResetReloadTimer();
 
 
 public:	
@@ -47,12 +45,6 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		class USkeletalMeshComponent* HandsMesh;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Mesh)
-		class USkeletalMeshComponent* Gun;
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Mesh)
-		class USceneComponent* MuzzleLocation;
-
 	// Camera Properties
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Camera)
 		class UCameraComponent* FirstPersonCamera;
@@ -63,14 +55,23 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Camera)
 		float LookUpRate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		FVector GunOffset;
+	//UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Mesh)
+	//	class USkeletalMeshComponent* Gun;
+	
+	//UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Mesh)
+	//	class USceneComponent* MuzzleLocation;
+	
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	//	FVector GunOffset;
 
-	// Gun Class (Not Implemented Yet)
+	//UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	//	TSubclassOf<class ABullet> Bullet;
+
+	// Gun Objects
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Weapon)
 		TSubclassOf<class AWPistolBase>Pistol;
 
-	UPROPERTY(VisibleDefaultsOnly)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 		class UChildActorComponent* Weapon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -78,52 +79,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int MaxAmmo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStat)
 		float Health;
-
-	UPROPERTY(EditAnywhere, Category = Weapon)
-		float damageValue;
-
-	UPROPERTY(EditAnywhere, Category = Weapon)
-		float reloadTime;
-
-	UPROPERTY(EditAnywhere, Category = Weapon)
-		float fireRate;
-
-	UPROPERTY(EditAnywhere, Category = Weapon)
-		FTimerHandle timerFire;
-
-	UPROPERTY(EditAnywhere, Category = Weapon)
-		FTimerHandle timerReload;
-
-	UPROPERTY(EditAnywhere, Category = Weapon)
-		bool isAuto;
-
-	UPROPERTY(EditAnywhere, Category = Weapon)
-		bool isReloading;
-
-	UPROPERTY(EditAnywhere, Category = Weapon)
-		float maxRange;
-
-	UPROPERTY(EditDefaultsOnly, Category = Projectile)
-		TSubclassOf<class ABullet> Bullet;
-
-	// Sounds and Animations
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
-		class USoundBase* fireSound;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
-		class UAnimMontage* fireAnimation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
-		class USoundBase* emptySound;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
-		class USoundBase* reloadSound;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
-		class UAnimMontage* reloadAnimation;
 
 	class UAnimInstance* AnimInstance;
 
@@ -131,7 +89,7 @@ public:
 	class UWorld* World;
 
 	// Projectile Spawn Variables
-	FRotator SpawnRotation;
-	FVector SpawnLocation;
+	//FRotator SpawnRotation;
+	//FVector SpawnLocation;
 
 };
