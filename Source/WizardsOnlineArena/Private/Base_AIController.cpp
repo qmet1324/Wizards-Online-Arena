@@ -30,16 +30,19 @@ void ABase_AIController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	////Get hold of the pawn player
-	//APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	//
-	//if (LineOfSightTo(PlayerPawn))
-	//{
-	//	SetFocus(PlayerPawn);	//Focus on the player
-	//	MoveToActor(PlayerPawn, 200);	//Move to the player with 2 meters of distance
-	//}
-	//else
-	//{
-	//	ClearFocus(EAIFocusPriority::Gameplay);
-	//	StopMovement();
-	//}
+	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+
+	if (LineOfSightTo(PlayerPawn))
+	{
+		//Sets player location
+		GetBlackboardComponent()->SetValueAsVector(TEXT("PlayerLocation"), PlayerPawn->GetActorLocation());
+		//Sets last known location
+		GetBlackboardComponent()->SetValueAsVector(TEXT("LastKnownPlayerLocation"), PlayerPawn->GetActorLocation());
+	}
+	else
+	{
+		//Clear value inside player location when out of sight
+		GetBlackboardComponent()->ClearValue(TEXT("PlayerLocation"));
+	}
+
 }
