@@ -3,39 +3,37 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "WPistolBase.generated.h"
+#include "Components/ActorComponent.h"
+#include "WGun.generated.h"
 
-UCLASS()
-class WIZARDSONLINEARENA_API AWPistolBase : public AActor
+
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+class WIZARDSONLINEARENA_API UWGun : public UActorComponent
 {
 	GENERATED_BODY()
-	
+
 public:	
-	// Sets default values for this actor's properties
-	AWPistolBase();
-	
-	// Placeholders for now, maybe immplement the shooting code in the gun class instead of the player class
-	
-	UFUNCTION(BlueprintCallable)
+	// Sets default values for this component's properties
+	UWGun();
+
 	void Firing();
-
-	UFUNCTION(BlueprintCallable)
 	void Reloading();
-
 	void FireTimer();
 	void ReloadTimer();
 
 protected:
-	// Called when the game starts or when spawned
+	// Called when the game starts
 	virtual void BeginPlay() override;
 
 public:	
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class UStaticMeshComponent* GunMesh;
+		class UStaticMeshComponent* Gun;
+
+	UPROPERTY(EditAnywhere)
+		USceneComponent* gunRoot;
 
 	UPROPERTY(EditAnywhere, Category = GunProperty)
 		int ammo;
