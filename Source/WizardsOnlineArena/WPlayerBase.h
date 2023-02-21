@@ -31,6 +31,8 @@ protected:
 	void OnFire();
 	void OnReload();
 
+	void OnDeath();
+
 
 public:	
 	// Called every frame
@@ -91,5 +93,7 @@ public:
 	// Projectile Spawn Variables
 	//FRotator SpawnRotation;
 	//FVector SpawnLocation;
+
+	void TakeDamage(float damageAmount);
 
 };

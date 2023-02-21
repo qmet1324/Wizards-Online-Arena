@@ -184,3 +184,18 @@ void AWPlayerBase::OnReload()
 		// Play Reload Animation
 	}
 }
+
+void AWPlayerBase::TakeDamage(float damageAmount)
+{
+	Health -= damageAmount;
+
+	if (Health <= 0)
+	{
+		OnDeath();
+		Health = 0;
+	}
+}
+
+void AWPlayerBase::OnDeath()
+{
+}
