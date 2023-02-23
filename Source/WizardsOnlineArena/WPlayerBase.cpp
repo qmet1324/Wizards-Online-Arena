@@ -85,6 +85,8 @@ void AWPlayerBase::BeginPlay()
 
 	isDead = false;
 
+	respawnDelay = 5.0f;
+
 	AnimInstance = HandsMesh->GetAnimInstance();
 }
 
@@ -203,6 +205,11 @@ void AWPlayerBase::OnDeath()
 	if (!isDead)
 	{
 		isDead = true;
+
+		//Play Death Animation
+
+		//Play Death Sound
+
 		APlayerController* owner = Cast<APlayerController>(GetController());
 		if (owner)
 		{
@@ -213,9 +220,30 @@ void AWPlayerBase::OnDeath()
 		
 		SetActorHiddenInGame(true);
 		SetActorEnableCollision(false);
+
+		FTimerHandle respawnTimer;
+		GetWorld()->GetTimerManager().SetTimer(respawnTimer, this, &AWPlayerBase::Respawn, respawnDelay, false);
 	}
 }
 
 void AWPlayerBase::Respawn()
 {
+	isDead = false;
+
+	Health = 100;
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(true);
+	
+	APlayerController* owner = Cast<APlayerController>(GetController());
+
+	if (owner != nullptr)
+	{
+		owner->EnableInput(owner);
+	}
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(true);
+
+
 }

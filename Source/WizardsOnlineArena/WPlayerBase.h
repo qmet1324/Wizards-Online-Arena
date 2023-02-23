@@ -88,6 +88,8 @@ public:
 
 	bool isDead;
 
+	float respawnDelay;
+
 	class UAnimInstance* AnimInstance;
 
 	// Render object in world
