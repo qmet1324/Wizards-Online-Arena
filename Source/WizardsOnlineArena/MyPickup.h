@@ -29,10 +29,4 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	USceneComponent* PickupRoot;
-
-	UPROPERTY(EditAnywhere)
-	UShapeComponent* PickupBox;
-
-	UFUNCTION()
-	void OnPlayerEnterPickupBox(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool fFromSweep, const FHitResult& SweepResult);
 };
