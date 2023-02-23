@@ -32,6 +32,7 @@ protected:
 	void OnReload();
 
 	void OnDeath();
+	void Respawn();
 
 
 public:	
@@ -84,6 +85,8 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStat)
 		float Health;
+
+	bool isDead;
 
 	class UAnimInstance* AnimInstance;
 

@@ -83,6 +83,8 @@ void AWPlayerBase::BeginPlay()
 
 	World = GetWorld();
 
+	isDead = false;
+
 	AnimInstance = HandsMesh->GetAnimInstance();
 }
 
@@ -197,5 +199,23 @@ void AWPlayerBase::TakeDamage(float damageAmount)
 }
 
 void AWPlayerBase::OnDeath()
+{
+	if (!isDead)
+	{
+		isDead = true;
+		APlayerController* owner = Cast<APlayerController>(GetController());
+		if (owner)
+		{
+			owner->DisableInput(owner);
+		}
+		
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		
+		SetActorHiddenInGame(true);
+		SetActorEnableCollision(false);
+	}
+}
+
+void AWPlayerBase::Respawn()
 {
 }
