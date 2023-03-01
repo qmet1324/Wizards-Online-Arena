@@ -16,8 +16,13 @@ public:
 	AWPistolBase();
 	
 	// Placeholders for now, maybe immplement the shooting code in the gun class instead of the player class
+	
+	UFUNCTION(BlueprintCallable)
 	void Firing();
+
+	UFUNCTION(BlueprintCallable)
 	void Reloading();
+
 	void FireTimer();
 	void ReloadTimer();
 
@@ -30,21 +35,21 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class UStaticMeshComponent* Gun;
+		class UStaticMeshComponent* GunMesh;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = GunProperty)
 		int ammo;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = GunProperty)
 		int maxAmmo;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = GunProperty)
 		float damageValue;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = GunProperty)
 		float reloadTime;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = GunProperty)
 		float fireRate;
 
 	UPROPERTY(EditAnywhere)
@@ -53,28 +58,28 @@ public:
 	UPROPERTY(EditAnywhere)
 		FTimerHandle timerReload;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = GunProperty)
 		bool isAuto;
 
 	UPROPERTY(EditAnywhere)
 		bool isReloading;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = GunProperty)
 		float maxRange;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SoundEffect)
 		class USoundBase* fireSound;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AnimEffect)
 		class UAnimMontage* fireAnimation;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SoundEffect)
 		class USoundBase* emptySound;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SoundEffect)
 		class USoundBase* reloadSound;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AnimEffect)
 		class UAnimMontage* reloadAnimation;
 
 	class UAnimInstance* AnimInstance;
