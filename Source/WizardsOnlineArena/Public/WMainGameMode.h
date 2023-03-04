@@ -13,5 +13,11 @@ UCLASS()
 class WIZARDSONLINEARENA_API AWMainGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+private:
+	//static AWMainGameMode* instancePtr;
+public:
+	AWMainGameMode();
+	//AWMainGameMode(const AWMainGameMode& obj) = delete;
+    
 };
