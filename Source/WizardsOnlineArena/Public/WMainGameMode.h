@@ -19,5 +19,8 @@ private:
 public:
 	AWMainGameMode();
 	//AWMainGameMode(const AWMainGameMode& obj) = delete;
-    
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TArray<int> Zones = { 4,4,4,4 };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int ZoneOne = 4;
 };

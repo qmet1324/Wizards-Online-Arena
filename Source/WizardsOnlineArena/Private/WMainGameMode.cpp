@@ -5,4 +5,6 @@
 
 AWMainGameMode::AWMainGameMode()
 {
+	//Zones.Add(2);
+	//Zones.Add(2);
 }

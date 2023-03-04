@@ -19,10 +19,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
-	void Dies();	
-	
-	UFUNCTION(BlueprintCallable)
-		bool DropLoot();
+	void Dies();
 
 public:
 
@@ -33,8 +30,8 @@ public:
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	//int EnemiesPerZone = 5;
 	//
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	int BelongsToZone;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int BelongsToZone;
 	//
 	//static int EnemiesLeft[Zones];
 	////static int* EnemiesLeft[Zones];//= { EnemiesPerZone };
