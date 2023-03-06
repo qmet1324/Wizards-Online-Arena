@@ -19,6 +19,11 @@ private:
 public:
 	AWMainGameMode();
 	//AWMainGameMode(const AWMainGameMode& obj) = delete;
+	void PawnKilled(APawn* PawnKilled);
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<class AMyPickup> SpawnItem;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TArray<int> Zones = { 4,4,4,4 };
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
