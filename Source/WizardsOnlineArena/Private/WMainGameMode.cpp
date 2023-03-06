@@ -3,3 +3,6 @@
 
 #include "WMainGameMode.h"
 
+AWMainGameMode::AWMainGameMode()
+{
+}
