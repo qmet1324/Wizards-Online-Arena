@@ -31,6 +31,9 @@ protected:
 	void OnFire();
 	void OnReload();
 
+	void OnDeath();
+	void Respawn();
+
 
 public:	
 	// Called every frame
@@ -83,6 +86,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStat)
 		float Health;
 
+	bool isDead;
+
+	float respawnDelay;
+
 	class UAnimInstance* AnimInstance;
 
 	// Render object in world
@@ -91,5 +98,7 @@ public:
 	// Projectile Spawn Variables
 	//FRotator SpawnRotation;
 	//FVector SpawnLocation;
+
+	void TakeDamage(float damageAmount);
 
 };
