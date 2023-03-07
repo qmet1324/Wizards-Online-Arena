@@ -31,7 +31,7 @@ protected:
 	void OnFire();
 	void OnReload();
 
-	void OnDeath();
+	virtual void OnDeath();
 	void Respawn();
 
 

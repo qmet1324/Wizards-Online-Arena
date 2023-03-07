@@ -14,19 +14,21 @@ void AWEnemyChild::Tick(float DeltaTime)
 
 }
 
-void AWEnemyChild::Dies()
+void AWEnemyChild::OnDeath()
 {
-	//Creates a GameMode pointer to our AWMainGameMode
-	//It needs to use the function GetWorld()->GetAuthGameMode. So we pass our class as the template
-	AWMainGameMode* GameMode = GetWorld()->GetAuthGameMode<AWMainGameMode>();
-	if (GameMode != nullptr)	//safety check
+	if (!isDead)
 	{
-		GameMode->PawnKilled(this);	//Calls the PawnKilled function and passes this Pawn as a parameter
+		//Creates a GameMode pointer to our AWMainGameMode
+		//It needs to use the function GetWorld()->GetAuthGameMode. So we pass our class as the template
+		AWMainGameMode* GameMode = GetWorld()->GetAuthGameMode<AWMainGameMode>();
+		if (GameMode != nullptr)	//safety check
+		{
+			GameMode->PawnKilled(this);	//Calls the PawnKilled function and passes this Pawn as a parameter
+		}
+
+		//Tells the GameMode that this enemy that belonged to the specific zone is dead
+		GameMode->Zones[BelongsToZone] -= 1;
+
+		isDead = true;
 	}
-
-	GameMode->Zones[BelongsToZone] -= 1;
-	//(AWMainGameMode)GetWorld()->GetAuthGameMode();
-	//	::Zones[BelongsToZone] -= 1;
-
-	//AWEnemyChild::EnemiesLeft[1] -= 1;
 }

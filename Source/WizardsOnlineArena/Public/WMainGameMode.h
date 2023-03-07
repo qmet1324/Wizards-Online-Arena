@@ -19,13 +19,15 @@ private:
 public:
 	AWMainGameMode();
 	//AWMainGameMode(const AWMainGameMode& obj) = delete;
+
+	/*This function will be called by the enemy when it was killed so the GameMode knows about it*/
 	void PawnKilled(APawn* PawnKilled);
 
+	/*It creates a way to populate the class with the items to be spawned (inside unreal)*/
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class AMyPickup> SpawnItem;
 
+	/*Variable to control the number of enemies per zone*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TArray<int> Zones = { 4,4,4,4 };
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int ZoneOne = 4;
 };
