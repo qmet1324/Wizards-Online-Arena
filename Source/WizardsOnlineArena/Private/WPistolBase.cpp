@@ -15,6 +15,7 @@ AWPistolBase::AWPistolBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 	GunMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Gun"));
+	GunMesh->SetOnlyOwnerSee(true);
 	GunMesh->bCastDynamicShadow = false;
 	GunMesh->CastShadow = false;
 	FString meshPath = TEXT("Wizards-Online-Arena/Content/WizardOnlineArena/Models/WOA_pistol.uasset");
