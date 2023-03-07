@@ -27,6 +27,7 @@ void AWEnemyChild::OnDeath()
 		}
 
 		//Tells the GameMode that this enemy that belonged to the specific zone is dead
+		//BUG WHEN THE OTHER Client kills it
 		GameMode->Zones[BelongsToZone] -= 1;
 
 		isDead = true;

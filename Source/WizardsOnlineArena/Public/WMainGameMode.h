@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
+#include "GameFramework/GameMode.h"
 #include "WMainGameMode.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class WIZARDSONLINEARENA_API AWMainGameMode : public AGameModeBase
+class WIZARDSONLINEARENA_API AWMainGameMode : public AGameMode
 {
 	GENERATED_BODY()
 
