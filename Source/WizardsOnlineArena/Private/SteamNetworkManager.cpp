@@ -3,6 +3,8 @@
 
 #include "SteamNetworkManager.h"
 
+const int MAX_PLAYERS = 2;
+
 SteamNetworkManager::SteamNetworkManager()
 {
 }
@@ -13,15 +15,15 @@ SteamNetworkManager::~SteamNetworkManager()
 
 /*
 
-void AddRequestLobbyListFilterSlotsAvailable( int nSlotsAvailable );
+
 
 void FindMatch()
 {
-	
+	SteamMatchmaking()->AddRequestLobbyListFilterSlotsAvailable(1);
 	uint_32 lobbies = ISteamMatchmaking::RequestLobbyList()
 	
 	if(lobbies == -1){
-		ISteamMatchmaking::CreateLobby(public, 2);
+		ISteamMatchmaking::CreateLobby(public, MAX_PLAYERS);
 	}else
 	{
 		ISteamMatchmaking::JoinLobby(ISteamMatchmaking::GetLobbyByIndex(0));
@@ -30,12 +32,12 @@ void FindMatch()
 
 void CreatePrivateLobby()
 {
-	ISteamMatchmaking::CreateLobby(private, 2);
+	ISteamMatchmaking::CreateLobby(private, MAX_PLAYERS);
 }
 
 void JoinPrivateLobby()
 {
-	int cFriends = SteamFriends()->GetFriendCount( k_EFriendFlagImmediate );
+	int cFriends = SteamFriends()->GetFriendCount(k_EFriendFlagImmediate);
 	for ( int i = 0; i < cFriends; i++ )
 	{
 		FriendGameInfo_t friendGameInfo;
@@ -53,5 +55,10 @@ void InviteFriend(CSteamID friendID)
 	{
 		Log("Friend Declined");
 	}
+}
+
+void LeaveLobby()
+{
+	ISteamMatchmaking::LeaveLobby(CSteamID steamIDLobby);
 }
 */
