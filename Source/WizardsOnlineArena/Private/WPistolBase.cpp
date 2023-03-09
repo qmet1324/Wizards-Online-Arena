@@ -21,12 +21,12 @@ AWPistolBase::AWPistolBase()
 	UStaticMesh* staticMesh = LoadObject<UStaticMesh>(nullptr, *meshPath);
 	GunMesh->SetStaticMesh(staticMesh);
 	
-	maxAmmo = 15;
+	maxAmmo = 30;
 	ammo = maxAmmo;
-	damageValue = 20.0f;
-	reloadTime = 2.0f;
-	fireRate = 0.2f;
-	maxRange = 1000.0f;
+	damageValue = 30.0f;
+	reloadTime = 3.0f;
+	fireRate = 0.05f;
+	maxRange = 10000.0f;
 }
 
 // Called when the game starts or when spawned
