@@ -28,6 +28,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int BelongsToZone;
 
+	UPROPERTY()
+		class AWMainGameMode* GameMode;
+
+
 private:
 
 
