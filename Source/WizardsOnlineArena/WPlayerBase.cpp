@@ -70,7 +70,7 @@ AWPlayerBase::AWPlayerBase()
 	Weapon = CreateDefaultSubobject<UChildActorComponent>(TEXT("Weapon"));
 	Weapon->SetChildActorClass(Pistol);
 	Weapon->CreateChildActor();
-	//Weapon->SetupAttachment(HandsMesh);
+	Weapon->SetupAttachment(FirstPersonCamera);
 }
 
 // Called when the game starts or when spawned
@@ -79,11 +79,15 @@ void AWPlayerBase::BeginPlay()
 	Super::BeginPlay();
 
 	//Gun->AttachToComponent(HandsMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("GripPoint"));
-	Weapon->AttachToComponent(HandsMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("GripPoint"));
-
+	//Weapon->AttachToComponent(HandsMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("GripPoint"));
+	
 	World = GetWorld();
 
-	AnimInstance = HandsMesh->GetAnimInstance();
+	isDead = false;
+
+	respawnDelay = 5.0f;
+
+	//AnimInstance = HandsMesh->GetAnimInstance();
 }
 
 // Called every frame
@@ -183,4 +187,63 @@ void AWPlayerBase::OnReload()
 
 		// Play Reload Animation
 	}
+}
+
+void AWPlayerBase::TakeDamage(float damageAmount)
+{
+	Health -= damageAmount;
+
+	if (Health <= 0)
+	{
+		OnDeath();
+		Health = 0;
+	}
+}
+
+void AWPlayerBase::OnDeath()
+{
+	if (!isDead)
+	{
+		isDead = true;
+
+		//Play Death Animation
+
+		//Play Death Sound
+
+		APlayerController* owner = Cast<APlayerController>(GetController());
+		if (owner)
+		{
+			owner->DisableInput(owner);
+		}
+		
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		
+		SetActorHiddenInGame(true);
+		SetActorEnableCollision(false);
+
+		FTimerHandle respawnTimer;
+		GetWorld()->GetTimerManager().SetTimer(respawnTimer, this, &AWPlayerBase::Respawn, respawnDelay, false);
+	}
+}
+
+void AWPlayerBase::Respawn()
+{
+	isDead = false;
+
+	Health = 100;
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(true);
+	
+	APlayerController* owner = Cast<APlayerController>(GetController());
+
+	if (owner != nullptr)
+	{
+		owner->EnableInput(owner);
+	}
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(true);
+
+
 }
