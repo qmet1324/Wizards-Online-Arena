@@ -43,6 +43,7 @@ AWPlayerBase::AWPlayerBase()
 	// Setting Up the hands mesh
 	HandsMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Character Mesh"));
 	HandsMesh->SetOnlyOwnerSee(true);
+	HandsMesh->SetOwnerNoSee(true);
 	HandsMesh->SetupAttachment(FirstPersonCamera);
 	HandsMesh->bCastDynamicShadow = false;
 	HandsMesh->CastShadow = false;
@@ -70,7 +71,9 @@ AWPlayerBase::AWPlayerBase()
 	Weapon = CreateDefaultSubobject<UChildActorComponent>(TEXT("Weapon"));
 	Weapon->SetChildActorClass(Pistol);
 	Weapon->CreateChildActor();
-	//Weapon->SetupAttachment(HandsMesh);
+	Weapon->SetupAttachment(FirstPersonCamera);
+	Weapon->AddRelativeRotation(FRotator(0.0f, 0.0f, 180.0f));
+	Weapon->AddRelativeLocation(FVector(60.0f, 10.0f, -30.0f));
 }
 
 // Called when the game starts or when spawned
@@ -79,7 +82,7 @@ void AWPlayerBase::BeginPlay()
 	Super::BeginPlay();
 
 	//Gun->AttachToComponent(HandsMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("GripPoint"));
-	Weapon->AttachToComponent(HandsMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("GripPoint"));
+	//Weapon->AttachToComponent(HandsMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("GripPoint"));
 
 	World = GetWorld();
 
