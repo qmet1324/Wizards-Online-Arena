@@ -6,6 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Kismet/GameplayStatics.h"
+#include "../WPlayerBase.h"
 
 // Sets default values
 AWPistolBase::AWPistolBase()
@@ -14,6 +15,7 @@ AWPistolBase::AWPistolBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 	GunMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Gun"));
+	GunMesh->SetOnlyOwnerSee(true);
 	GunMesh->bCastDynamicShadow = false;
 	GunMesh->CastShadow = false;
 	FString meshPath = TEXT("Wizards-Online-Arena/Content/WizardOnlineArena/Models/WOA_pistol.uasset");
@@ -63,11 +65,20 @@ void AWPistolBase::Firing()
 				//Set up the trace parameters
 				FCollisionQueryParams traceParams;
 				traceParams.AddIgnoredActor(this);
+				traceParams.bTraceComplex = true;
+				traceParams.bReturnPhysicalMaterial = true;
 
 				FHitResult hitResults;
-				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_Visibility, traceParams))
+				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_WorldDynamic, traceParams))
 				{
 					//TODO (Damage to enemies or bullet marks in walls?)
+					AWPlayerBase* enemyPlayer = Cast<AWPlayerBase>(hitResults.GetActor());
+
+
+					if (enemyPlayer)
+					{
+						enemyPlayer->TakeDamage(20);
+					}
 				}
 
 				if (GetWorld() != NULL)

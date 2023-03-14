@@ -37,10 +37,10 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		class UStaticMeshComponent* GunMesh;
 
-	UPROPERTY(EditAnywhere, Category = GunProperty)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GunProperty)
 		int ammo;
 
-	UPROPERTY(EditAnywhere, Category = GunProperty)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GunProperty)
 		int maxAmmo;
 
 	UPROPERTY(EditAnywhere, Category = GunProperty)
