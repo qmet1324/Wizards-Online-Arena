@@ -28,7 +28,6 @@ protected:
 	void StartCrouch();
 	void StopCrouch();
 
-	void OnFire();
 	void OnReload();
 
 	virtual void OnDeath();
@@ -36,6 +35,7 @@ protected:
 
 
 public:	
+	void OnFire();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
