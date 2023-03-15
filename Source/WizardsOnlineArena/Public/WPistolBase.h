@@ -34,12 +34,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-		USceneComponent* GunRoot;
-
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class UStaticMeshComponent* GunMesh;
-
 	UPROPERTY(BlueprintReadWrite, Category = GunProperty)
 		int ammo;
 
