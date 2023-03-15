@@ -14,12 +14,15 @@ AWPistolBase::AWPistolBase()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	GunRoot = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultRootScene"));
+	RootComponent = GunRoot;
+
 	GunMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Gun"));
 	GunMesh->bCastDynamicShadow = false;
 	GunMesh->CastShadow = false;
-	FString meshPath = TEXT("Wizards-Online-Arena/Content/WizardOnlineArena/Models/WOA_pistol.uasset");
-	UStaticMesh* staticMesh = LoadObject<UStaticMesh>(nullptr, *meshPath);
-	GunMesh->SetStaticMesh(staticMesh);
+	//FString meshPath = TEXT("Wizards-Online-Arena/Content/WizardOnlineArena/Models/WOA_pistol.uasset");
+	//UStaticMesh* staticMesh = LoadObject<UStaticMesh>(nullptr, *meshPath);
+	//GunMesh->SetStaticMesh(staticMesh);
 	
 	maxAmmo = 30;
 	ammo = maxAmmo;

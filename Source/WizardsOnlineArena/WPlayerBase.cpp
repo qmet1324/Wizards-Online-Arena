@@ -43,7 +43,6 @@ AWPlayerBase::AWPlayerBase()
 	// Setting Up the hands mesh
 	HandsMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Character Mesh"));
 	HandsMesh->SetOnlyOwnerSee(true);
-	HandsMesh->SetOwnerNoSee(true);
 	HandsMesh->SetupAttachment(FirstPersonCamera);
 	HandsMesh->bCastDynamicShadow = false;
 	HandsMesh->CastShadow = false;
@@ -66,14 +65,14 @@ AWPlayerBase::AWPlayerBase()
 
 			// GunOffset = FVector(100.0f, 0.0f, 10.0f);
 
+	//----------------------------------------------------------------//
+	
 	// Creating instance of pistol
 	Pistol = AWPistolBase::StaticClass();
 	Weapon = CreateDefaultSubobject<UChildActorComponent>(TEXT("Weapon"));
 	Weapon->SetChildActorClass(Pistol);
 	Weapon->CreateChildActor();
 	Weapon->SetupAttachment(FirstPersonCamera);
-	Weapon->AddRelativeRotation(FRotator(0.0f, 0.0f, 180.0f));
-	Weapon->AddRelativeLocation(FVector(60.0f, 10.0f, -30.0f));
 }
 
 // Called when the game starts or when spawned
@@ -158,27 +157,6 @@ void AWPlayerBase::OnFire()
 	if (World != NULL)
 	{
 		((AWPistolBase*)Weapon->GetChildActor())->Firing();
-		// Play Fireing Animation
-
-				// Code to spawn Porjectlie Object (currently spawning object but not it's mesh)
-
-				//SpawnRotation = GetControlRotation();
-				//
-				//if (MuzzleLocation != nullptr)
-				//{
-				//	SpawnLocation = MuzzleLocation->GetComponentLocation();
-				//}
-				//else
-				//{
-				//	SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
-				//}
-				//
-				//FActorSpawnParameters ActorSpawnParams;
-				//ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-				//
-				//World->SpawnActor<ABullet>(Bullet, SpawnLocation, SpawnRotation, ActorSpawnParams);
-
-				//------------------------------------------------------------------------------//
 	}
 }
 
