@@ -28,8 +28,8 @@ void AWEnemyChild::OnDeath()
 
 			//Tells the GameMode that this enemy that belonged to the specific zone is dead
 			//BUG WHEN THE OTHER Client kills it
-			GameMode->Zones[BelongsToZone] -= 1;
-			GameMode->PawnKilled(this);	//Calls the PawnKilled function and passes this Pawn as a parameter
+			//GameMode->Zones[BelongsToZone] -= 1;
+			GameMode->PawnKilled(this, BelongsToZone);	//Calls the PawnKilled function and passes this Pawn as a parameter
 		}
 
 		isDead = true;

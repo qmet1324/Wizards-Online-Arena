@@ -21,7 +21,7 @@ public:
 	//AWMainGameMode(const AWMainGameMode& obj) = delete;
 
 	/*This function will be called by the enemy when it was killed so the GameMode knows about it*/
-	void PawnKilled(APawn* PawnKilled);
+	void PawnKilled(APawn* PawnKilled, int numZone);
 
 	/*It creates a way to populate the class with the items to be spawned (inside unreal)*/
 	UPROPERTY(EditAnywhere)
@@ -30,4 +30,7 @@ public:
 	/*Variable to control the number of enemies per zone*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TArray<int> Zones = { 4,4,4,4 };
+
+	UPROPERTY()
+		class AWEnemyChild* Pawnee;
 };
