@@ -63,7 +63,7 @@ AWPlayerBase::AWPlayerBase()
 			//MuzzleLocation->SetupAttachment(Gun);
 			//MuzzleLocation->SetRelativeLocation(FVector(-0.2f, 48.4f, -10.6f));
 
-			// GunOffset = FVector(100.0f, 0.0f, 10.0f);
+			//GunOffset = FVector(100.0f, 0.0f, 10.0f);
 
 	//----------------------------------------------------------------//
 	
@@ -154,20 +154,20 @@ void AWPlayerBase::StopCrouch()
 
 void AWPlayerBase::OnFire()
 {
-	//if (World != NULL)
-	//{
-	//	((AWPistolBase*)Weapon->GetChildActor())->Firing();
-	//}
+	if (World != NULL)
+	{
+		((AWPistolBase*)Weapon->GetChildActor())->Firing();
+	}
 }
 
 void AWPlayerBase::OnReload()
 {
-	//if (World != NULL)
-	//{
-	//	((AWPistolBase*)Weapon->GetChildActor())->Reloading();
-	//
-	//	// Play Reload Animation
-	//}
+	if (World != NULL)
+	{
+		((AWPistolBase*)Weapon->GetChildActor())->Reloading();
+	
+		// Play Reload Animation
+	}
 }
 
 void AWPlayerBase::TakeDamage(float damageAmount)

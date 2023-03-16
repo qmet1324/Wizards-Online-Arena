@@ -61,9 +61,8 @@ void AWPistolBase::Firing()
 				traceParams.bReturnPhysicalMaterial = true;
 
 				FHitResult hitResults;
-				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_WorldDynamic, traceParams))
+				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation*2.0, raycastTrace, ECC_WorldDynamic, traceParams))
 				{
-					//TODO (Damage to enemies or bullet marks in walls?)
 					AWPlayerBase* enemyPlayer = Cast<AWPlayerBase>(hitResults.GetActor());
 
 
