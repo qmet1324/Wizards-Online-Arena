@@ -244,6 +244,4 @@ void AWPlayerBase::Respawn()
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	SetActorHiddenInGame(false);
 	SetActorEnableCollision(true);
-
-	Compilation Error
 }
