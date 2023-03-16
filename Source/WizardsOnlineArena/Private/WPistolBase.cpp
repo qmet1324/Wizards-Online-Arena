@@ -15,7 +15,6 @@ AWPistolBase::AWPistolBase()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	maxAmmo = 30;
-	ammo = maxAmmo;
 	damageValue = 30.0f;
 	reloadTime = 3.0f;
 	fireRate = 0.05f;
@@ -28,6 +27,8 @@ void AWPistolBase::BeginPlay()
 	Super::BeginPlay();
 
 	World = GetWorld();
+
+	ammo = maxAmmo;
 }
 
 // Called every frame
