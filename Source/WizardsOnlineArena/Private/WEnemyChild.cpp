@@ -19,6 +19,7 @@ void AWEnemyChild::OnDeath()
 {
 	if (!isDead)
 	{
+		isDead = true;
 		//Creates a GameMode pointer to our AWMainGameMode
 		//It needs to use the function GetWorld()->GetAuthGameMode. So we pass our class as the template
 		//AWMainGameMode* GameMode = GetWorld()->GetAuthGameMode<AWMainGameMode>();
@@ -32,6 +33,17 @@ void AWEnemyChild::OnDeath()
 			GameMode->PawnKilled(this, BelongsToZone);	//Calls the PawnKilled function and passes this Pawn as a parameter
 		}
 
-		isDead = true;
+		
+	}
+}
+
+void AWEnemyChild::TakeDamage(float damageAmount)
+{
+	Health -= damageAmount;
+
+	if (Health <= 0)
+	{
+		OnDeath();
+		Health = 0;
 	}
 }

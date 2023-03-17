@@ -99,6 +99,6 @@ public:
 	//FRotator SpawnRotation;
 	//FVector SpawnLocation;
 
-	void TakeDamage(float damageAmount);
+	virtual void TakeDamage(float damageAmount);
 
 };
