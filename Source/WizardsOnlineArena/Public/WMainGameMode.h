@@ -31,6 +31,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TArray<int> Zones = { 4,4,4,4 };
 
+	/*Variable to be displayed in the HUD*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int ZonesCleared = 0;
 };

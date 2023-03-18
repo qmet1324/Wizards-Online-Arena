@@ -22,17 +22,11 @@ void AWEnemyChild::OnDeath()
 		isDead = true;
 		//Creates a GameMode pointer to our AWMainGameMode
 		//It needs to use the function GetWorld()->GetAuthGameMode. So we pass our class as the template
-		//AWMainGameMode* GameMode = GetWorld()->GetAuthGameMode<AWMainGameMode>();
-		GameMode = GameMode == nullptr ? GetWorld()->GetAuthGameMode<AWMainGameMode>() : GameMode;
+		GameMode = GameMode == nullptr ? GetWorld()->GetAuthGameMode<AWMainGameMode>() : GameMode;	//Check if our GameMode was correctly assigned in the class constructor
 		if (GameMode != nullptr)	//safety check
 		{
-
 			//Tells the GameMode that this enemy that belonged to the specific zone is dead
-			//BUG WHEN THE OTHER Client kills it
-			//GameMode->Zones[BelongsToZone] -= 1;
-			GameMode->PawnKilled(this, BelongsToZone);	//Calls the PawnKilled function and passes this Pawn as a parameter
+			GameMode->PawnKilled(this, BelongsToZone);
 		}
-
-		
 	}
 }
