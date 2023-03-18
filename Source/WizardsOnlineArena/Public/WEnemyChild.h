@@ -24,8 +24,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void OnDeath() override;
 
-	virtual void TakeDamage(float damageAmount) override;
-
 	/*This is a property to be set at the engine to tell which zone this enemy belongs*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int BelongsToZone;

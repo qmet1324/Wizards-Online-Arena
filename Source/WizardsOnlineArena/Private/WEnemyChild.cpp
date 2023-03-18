@@ -36,14 +36,3 @@ void AWEnemyChild::OnDeath()
 		
 	}
 }
-
-void AWEnemyChild::TakeDamage(float damageAmount)
-{
-	Health -= damageAmount;
-
-	if (Health <= 0)
-	{
-		OnDeath();
-		Health = 0;
-	}
-}

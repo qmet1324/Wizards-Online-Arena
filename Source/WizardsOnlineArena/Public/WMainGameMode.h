@@ -31,6 +31,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TArray<int> Zones = { 4,4,4,4 };
 
-	UPROPERTY()
-		class AWEnemyChild* Pawnee;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int ZonesCleared = 0;
 };
