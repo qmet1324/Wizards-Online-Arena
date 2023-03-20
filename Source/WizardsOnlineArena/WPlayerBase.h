@@ -99,6 +99,7 @@ public:
 	//FRotator SpawnRotation;
 	//FVector SpawnLocation;
 
-	void TakeDamage(float damageAmount);
-
+	void DamageTaken(float damageAmount);
+	//float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	
 };

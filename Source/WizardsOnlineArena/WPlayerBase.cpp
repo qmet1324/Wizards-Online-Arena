@@ -154,23 +154,24 @@ void AWPlayerBase::StopCrouch()
 
 void AWPlayerBase::OnFire()
 {
-	if (World != NULL)
-	{
-		((AWPistolBase*)Weapon->GetChildActor())->Firing();
-	}
+	//if (World != NULL)
+	//{
+	//	((AWPistolBase*)Weapon->GetChildActor())->Firing();
+	//}
 }
 
 void AWPlayerBase::OnReload()
 {
-	if (World != NULL)
-	{
-		((AWPistolBase*)Weapon->GetChildActor())->Reloading();
-	
-		// Play Reload Animation
-	}
+	//if (World != NULL)
+	//{
+	//	((AWPistolBase*)Weapon->GetChildActor())->Reloading();
+	//
+	//	// Play Reload Animation
+	//}
 }
 
-void AWPlayerBase::TakeDamage(float damageAmount)
+void AWPlayerBase::DamageTaken(float damageAmount)
+//float AWPlayerBase::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	Health -= damageAmount;
 

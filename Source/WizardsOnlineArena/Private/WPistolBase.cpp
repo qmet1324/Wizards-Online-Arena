@@ -62,14 +62,13 @@ void AWPistolBase::Firing()
 				traceParams.bReturnPhysicalMaterial = true;
 
 				FHitResult hitResults;
-				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation*2.0, raycastTrace, ECC_WorldDynamic, traceParams))
+				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_WorldDynamic, traceParams))
 				{
 					AWPlayerBase* enemyPlayer = Cast<AWPlayerBase>(hitResults.GetActor());
 
-
 					if (enemyPlayer)
 					{
-						enemyPlayer->TakeDamage(20);
+						enemyPlayer->DamageTaken(damageValue);
 					}
 				}
 
