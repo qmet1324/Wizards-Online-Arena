@@ -13,21 +13,12 @@ AWPistolBase::AWPistolBase()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	GunMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Gun"));
-	GunMesh->SetOnlyOwnerSee(true);
-	GunMesh->bCastDynamicShadow = false;
-	GunMesh->CastShadow = false;
-	FString meshPath = TEXT("Wizards-Online-Arena/Content/WizardOnlineArena/Models/WOA_pistol.uasset");
-	UStaticMesh* staticMesh = LoadObject<UStaticMesh>(nullptr, *meshPath);
-	GunMesh->SetStaticMesh(staticMesh);
 	
-	maxAmmo = 15;
-	ammo = maxAmmo;
-	damageValue = 20.0f;
-	reloadTime = 2.0f;
-	fireRate = 0.2f;
-	maxRange = 1000.0f;
+	maxAmmo = 30;
+	damageValue = 30.0f;
+	reloadTime = 3.0f;
+	fireRate = 0.05f;
+	maxRange = 10000.0f;
 }
 
 // Called when the game starts or when spawned
@@ -36,6 +27,8 @@ void AWPistolBase::BeginPlay()
 	Super::BeginPlay();
 
 	World = GetWorld();
+
+	ammo = maxAmmo;
 }
 
 // Called every frame
@@ -69,9 +62,8 @@ void AWPistolBase::Firing()
 				traceParams.bReturnPhysicalMaterial = true;
 
 				FHitResult hitResults;
-				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_WorldDynamic, traceParams))
+				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation*2.0, raycastTrace, ECC_WorldDynamic, traceParams))
 				{
-					//TODO (Damage to enemies or bullet marks in walls?)
 					AWPlayerBase* enemyPlayer = Cast<AWPlayerBase>(hitResults.GetActor());
 
 
