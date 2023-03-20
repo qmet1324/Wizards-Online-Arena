@@ -34,10 +34,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class UStaticMeshComponent* GunMesh;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GunProperty)
+	UPROPERTY(BlueprintReadWrite, Category = GunProperty)
 		int ammo;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GunProperty)
@@ -52,16 +49,16 @@ public:
 	UPROPERTY(EditAnywhere, Category = GunProperty)
 		float fireRate;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadOnly)
 		FTimerHandle timerFire;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadOnly)
 		FTimerHandle timerReload;
 
 	UPROPERTY(EditAnywhere, Category = GunProperty)
 		bool isAuto;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadOnly)
 		bool isReloading;
 
 	UPROPERTY(EditAnywhere, Category = GunProperty)

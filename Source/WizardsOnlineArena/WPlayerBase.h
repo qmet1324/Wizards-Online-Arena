@@ -45,7 +45,7 @@ public:
 public:
 
 	// Mesh Properties
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Mesh)
 		class USkeletalMeshComponent* HandsMesh;
 
 	// Camera Properties
