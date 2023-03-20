@@ -26,7 +26,7 @@ void AWMainGameMode::PawnKilled(APawn* PawnKilled, int numZone)
 		UE_LOG(LogTemp, Warning, TEXT("RESPAW!"));
 		/*This is where the magic happens to spawn the item.
 		We are passing the Item blueprint as the first parameter (it needs to be set in the engine!)*/
-		GetWorld()->SpawnActor<AMyPickup>(SpawnItem, Location, Rotation, MySpawn);
+		GetWorld()->SpawnActor<AMyPickup>(SpawnItem[0], Location, Rotation, MySpawn);
 		ZonesCleared += 1;
 	}
 

@@ -25,7 +25,7 @@ public:
 
 	/*It creates a way to populate the class with the items to be spawned (inside unreal)*/
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<class AMyPickup> SpawnItem;
+		TArray<TSubclassOf<class AMyPickup>> SpawnItem;
 
 	/*Variable to control the number of enemies per zone*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -34,4 +34,8 @@ public:
 	/*Variable to be displayed in the HUD*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int ZonesCleared = 0;
+
+	///*Variable to be displayed in the HUD*/
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//	int LastZoneCleared = 0;
 };
