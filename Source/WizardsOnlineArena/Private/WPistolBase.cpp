@@ -38,6 +38,7 @@ void AWPistolBase::Tick(float DeltaTime)
 
 }
 
+UFUNCTION(NetMulticast, reliable)
 void AWPistolBase::Firing()
 {
 	if (World != NULL)

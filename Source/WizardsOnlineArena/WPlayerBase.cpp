@@ -170,6 +170,7 @@ void AWPlayerBase::OnReload()
 	}
 }
 
+UFUNCTION(NetMulticast, reliable)
 void AWPlayerBase::TakeDamage(float damageAmount)
 {
 	Health -= damageAmount;
@@ -181,6 +182,7 @@ void AWPlayerBase::TakeDamage(float damageAmount)
 	}
 }
 
+UFUNCTION(NetMulticast, reliable)
 void AWPlayerBase::OnDeath()
 {
 	if (!isDead)
