@@ -46,7 +46,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = GunProperty)
 		float reloadTime;
 
-	UPROPERTY(EditAnywhere, Category = GunProperty)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GunProperty)
 		float fireRate;
 
 	UPROPERTY(BlueprintReadOnly)
