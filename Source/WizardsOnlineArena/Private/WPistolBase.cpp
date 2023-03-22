@@ -39,7 +39,7 @@ void AWPistolBase::Tick(float DeltaTime)
 }
 
 UFUNCTION(NetMulticast, reliable)
-void AWPistolBase::Firing()
+void AWPistolBase::Firing(APlayerController user)
 {
 	if (World != NULL)
 	{
@@ -51,8 +51,8 @@ void AWPistolBase::Firing()
 				// Posible Hitscan code? Needs more testing.
 				FVector cameraLocation;
 				FRotator cameraRotation;
-				GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
-
+				//GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
+				user.GetPlayerViewPoint(cameraLocation, cameraRotation);
 				// Calculate the hit trace
 				FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
 
