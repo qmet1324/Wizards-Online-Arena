@@ -28,14 +28,14 @@ protected:
 	void StartCrouch();
 	void StopCrouch();
 
-	void OnFire();
 	void OnReload();
 
-	void OnDeath();
+	virtual void OnDeath();
 	void Respawn();
 
 
 public:	
+	void OnFire();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -99,6 +99,7 @@ public:
 	//FRotator SpawnRotation;
 	//FVector SpawnLocation;
 
-	void TakeDamage(float damageAmount);
-
+	void DamageTaken(float damageAmount);
+	//float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	
 };
