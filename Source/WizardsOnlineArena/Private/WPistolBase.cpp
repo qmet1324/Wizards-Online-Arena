@@ -37,7 +37,7 @@ void AWPistolBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-void AWPistolBase::Firing()
+void AWPistolBase::Firing_Implementation()
 {
 	if (World != NULL)
 	{
