@@ -51,7 +51,7 @@ void AWPistolBase::Firing()
 				FVector cameraLocation;
 				FRotator cameraRotation;
 				GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
-				
+
 				// Calculate the hit trace
 				FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
 				

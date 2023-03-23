@@ -17,7 +17,7 @@ void ABase_AIController::BeginPlay()
 		//Get hold of the pawn player
 		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 		
-		//Safetyc heck - this was causing the program to crash when spawning new enemies
+		//Safety check - this was causing the program to crash when spawning new enemies
 		if (GetPawn() != nullptr)
 			GetBlackboardComponent()->SetValueAsVector(TEXT("StartLocation"), GetPawn()->GetActorLocation());
 
