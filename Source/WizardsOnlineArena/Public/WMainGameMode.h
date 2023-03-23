@@ -16,12 +16,23 @@ class WIZARDSONLINEARENA_API AWMainGameMode : public AGameMode
 
 private:
 	//static AWMainGameMode* instancePtr;
+	enum Loot
+	{
+		HEALTH,
+		SMG,
+		RIFLE,
+		BOLT,
+
+		NUM_PICKUPS
+	};
 public:
 	AWMainGameMode();
 	//AWMainGameMode(const AWMainGameMode& obj) = delete;
 
 	/*This function will be called by the enemy when it was killed so the GameMode knows about it*/
 	void PawnKilled(APawn* PawnKilled, int numZone);
+	//Overloaded function for the player
+	void PawnKilled(APawn* PawnKilled); 
 
 	/*It creates a way to populate the class with the items to be spawned (inside unreal)*/
 	UPROPERTY(EditAnywhere)

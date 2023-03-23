@@ -205,6 +205,13 @@ void AWPlayerBase::OnDeath()
 
 		FTimerHandle respawnTimer;
 		GetWorld()->GetTimerManager().SetTimer(respawnTimer, this, &AWPlayerBase::Respawn, respawnDelay, false);
+
+		//Adding a game end call
+		GameMode = GameMode == nullptr ? GetWorld()->GetAuthGameMode<AWMainGameMode>() : GameMode;
+		if (GameMode != nullptr)
+		{
+			GameMode->PawnKilled(this);
+		}
 	}
 }
 

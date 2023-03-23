@@ -102,4 +102,6 @@ public:
 	void DamageTaken(float damageAmount);
 	//float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	
+	UPROPERTY()
+		class AWMainGameMode* GameMode;
 };
