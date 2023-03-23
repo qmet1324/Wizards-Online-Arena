@@ -54,7 +54,7 @@ void AWPistolBase::Firing()
 
 				// Calculate the hit trace
 				FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
-
+				
 				//Set up the trace parameters
 				FCollisionQueryParams traceParams;
 				traceParams.AddIgnoredActor(this);
@@ -62,7 +62,7 @@ void AWPistolBase::Firing()
 				traceParams.bReturnPhysicalMaterial = true;
 
 				FHitResult hitResults;
-				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation*2.0, raycastTrace, ECC_WorldDynamic, traceParams))
+				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_WorldDynamic, traceParams))
 				{
 					AWPlayerBase* enemyPlayer = Cast<AWPlayerBase>(hitResults.GetActor());
 

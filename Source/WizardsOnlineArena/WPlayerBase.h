@@ -28,14 +28,14 @@ protected:
 	void StartCrouch();
 	void StopCrouch();
 
-	void OnFire();
 	void OnReload();
 
-	void OnDeath();
+	virtual void OnDeath();
 	void Respawn();
 
 
 public:	
+	void OnFire();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
