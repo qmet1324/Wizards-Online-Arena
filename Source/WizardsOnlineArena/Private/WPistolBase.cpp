@@ -66,10 +66,9 @@ void AWPistolBase::Firing()
 				{
 					AWPlayerBase* enemyPlayer = Cast<AWPlayerBase>(hitResults.GetActor());
 
-
 					if (enemyPlayer)
 					{
-						enemyPlayer->TakeDamage(20);
+						enemyPlayer->DamageTaken(damageValue);
 					}
 				}
 
