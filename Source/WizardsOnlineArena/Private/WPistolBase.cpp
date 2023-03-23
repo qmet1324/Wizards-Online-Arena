@@ -37,9 +37,7 @@ void AWPistolBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
-UFUNCTION(NetMulticast, reliable)
-void AWPistolBase::Firing(APlayerController user)
+void AWPistolBase::Firing()
 {
 	if (World != NULL)
 	{
@@ -52,7 +50,9 @@ void AWPistolBase::Firing(APlayerController user)
 				FVector cameraLocation;
 				FRotator cameraRotation;
 				//GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
-				user.GetPlayerViewPoint(cameraLocation, cameraRotation);
+				//user.GetPlayerViewPoint(cameraLocation, cameraRotation);
+				cameraRotation = GetOwner()->GetActorRotation();
+				cameraLocation = GetOwner()->GetActorLocation();
 				// Calculate the hit trace
 				FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
 

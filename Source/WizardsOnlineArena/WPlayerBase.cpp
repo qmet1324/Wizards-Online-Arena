@@ -154,6 +154,7 @@ void AWPlayerBase::StopCrouch()
 
 void AWPlayerBase::OnFire()
 {
+	APlayerController* user = GetWorld()->GetFirstPlayerController();
 	if (World != NULL)
 	{
 		((AWPistolBase*)Weapon->GetChildActor())->Firing();

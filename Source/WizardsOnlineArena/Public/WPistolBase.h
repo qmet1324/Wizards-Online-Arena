@@ -17,8 +17,8 @@ public:
 	
 	// Placeholders for now, maybe immplement the shooting code in the gun class instead of the player class
 	
-	UFUNCTION(BlueprintCallable)
-	void Firing(APlayerController user);
+	UFUNCTION(BlueprintCallable, NetMulticast, reliable)
+	void Firing();
 
 	UFUNCTION(BlueprintCallable)
 	void Reloading();
