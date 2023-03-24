@@ -20,6 +20,8 @@ public:
 	UFUNCTION(BlueprintCallable, NetMulticast, reliable)
 	void Firing();
 
+	void Firing_Implementation();
+
 	UFUNCTION(BlueprintCallable)
 	void Reloading();
 
