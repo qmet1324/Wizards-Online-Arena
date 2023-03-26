@@ -7,6 +7,7 @@
 #include "Animation/AnimInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "../WPlayerBase.h"
+#include "ObjectTemplates/DatasmithActorTemplate.h"
 
 // Sets default values
 AWPistolBase::AWPistolBase()
@@ -45,14 +46,15 @@ void AWPistolBase::Firing_Implementation()
 		{
 			if (!GetWorldTimerManager().IsTimerActive(timerFire) && !isReloading)
 			{
-
+				AActor* Shooter = GetOwner();
+				if (!Shooter) { return; }
 				// Posible Hitscan code? Needs more testing.
 				FVector cameraLocation;
 				FRotator cameraRotation;
 				//GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
 				//user.GetPlayerViewPoint(cameraLocation, cameraRotation);
-				cameraRotation = GetOwner()->GetActorRotation();
-				cameraLocation = GetOwner()->GetActorLocation();
+				cameraRotation = Shooter->GetActorRotation();
+				cameraLocation = Shooter->GetActorLocation();
 				// Calculate the hit trace
 				FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
 				
