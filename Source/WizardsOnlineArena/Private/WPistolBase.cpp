@@ -62,7 +62,7 @@ void AWPistolBase::Firing()
 				traceParams.bReturnPhysicalMaterial = true;
 
 				FHitResult hitResults;
-				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_WorldDynamic, traceParams))
+				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation + (cameraRotation.Vector() * 100), raycastTrace, ECC_WorldDynamic, traceParams))
 				{
 					AWPlayerBase* enemyPlayer = Cast<AWPlayerBase>(hitResults.GetActor());
 
@@ -74,7 +74,7 @@ void AWPistolBase::Firing()
 
 				if (GetWorld() != NULL)
 				{
-					DrawDebugLine(GetWorld(), cameraLocation, raycastTrace, FColor::Blue, false, 10.0f, 0, 5.0f);
+					DrawDebugLine(GetWorld(), cameraLocation + (cameraRotation.Vector() * 100), raycastTrace, FColor::Blue, false, 10.0f, 0, 5.0f);
 				}
 
 				// Fire Sound Effect
