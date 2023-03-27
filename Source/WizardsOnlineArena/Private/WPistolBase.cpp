@@ -54,7 +54,7 @@ void AWPistolBase::Firing()
 
 				// Calculate the hit trace
 				FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
-
+				
 				//Set up the trace parameters
 				FCollisionQueryParams traceParams;
 				traceParams.AddIgnoredActor(this);
