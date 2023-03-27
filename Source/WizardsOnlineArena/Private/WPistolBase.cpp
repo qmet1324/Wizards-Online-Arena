@@ -7,7 +7,7 @@
 #include "Animation/AnimInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "../WPlayerBase.h"
-#include "ObjectTemplates/DatasmithActorTemplate.h"
+
 
 // Sets default values
 AWPistolBase::AWPistolBase()
