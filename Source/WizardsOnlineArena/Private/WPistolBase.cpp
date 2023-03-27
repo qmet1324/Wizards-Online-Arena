@@ -29,6 +29,8 @@ void AWPistolBase::BeginPlay()
 
 	World = GetWorld();
 
+	SetOwner(GetWorld()->GetFirstPlayerController());
+
 	ammo = maxAmmo;
 }
 
@@ -38,7 +40,16 @@ void AWPistolBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-void AWPistolBase::Firing_Implementation()
+
+//bool AWPistolBase::Firing_Validate()
+//{
+//	if (World == NULL)
+//	{
+//		return false;
+//	}
+//	return true;
+//}
+void AWPistolBase::Firing/*_Implementation*/()
 {
 	if (World != NULL)
 	{
@@ -46,15 +57,24 @@ void AWPistolBase::Firing_Implementation()
 		{
 			if (!GetWorldTimerManager().IsTimerActive(timerFire) && !isReloading)
 			{
-				AActor* Shooter = GetOwner();
-				if (!Shooter) { return; }
+				if (GetLocalRole() != ROLE_Authority) 
+				{
+					GEngine->AddOnScreenDebugMessage(3, 15.0f, FColor::Red, TEXT("NO AUTHORITY OVER CREATED WEAPON"));
+				}
+				
+				/*AActor* Shooter = GetOwner();
+				if (!Shooter) 
+				{ 
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FAILED TO GET OWNER"));
+					return; 
+				}*/
 				// Posible Hitscan code? Needs more testing.
 				FVector cameraLocation;
 				FRotator cameraRotation;
 				//GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
 				//user.GetPlayerViewPoint(cameraLocation, cameraRotation);
-				cameraRotation = Shooter->GetActorRotation();
-				cameraLocation = Shooter->GetActorLocation();
+				cameraRotation = GetOwner()->GetActorRotation();
+				cameraLocation = GetOwner()->GetActorLocation();
 				// Calculate the hit trace
 				FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
 				

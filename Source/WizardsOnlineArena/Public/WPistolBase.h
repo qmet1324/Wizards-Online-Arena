@@ -17,10 +17,12 @@ public:
 	
 	// Placeholders for now, maybe immplement the shooting code in the gun class instead of the player class
 	
-	UFUNCTION(BlueprintCallable, NetMulticast, reliable)
+	UFUNCTION(BlueprintCallable /*NetMulticast, reliable, WithValidation*/)
 	void Firing();
 
-	void Firing_Implementation();
+	//bool Firing_Validate();
+
+	//void Firing_Implementation();
 
 	UFUNCTION(BlueprintCallable)
 	void Reloading();
