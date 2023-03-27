@@ -3,11 +3,32 @@
 
 #include "WEnemyChild.h"
 #include "WMainGameMode.h"
+#include "WPistolBase.h"
 #include "Kismet/GameplayStatics.h"
 
 AWEnemyChild::AWEnemyChild()
 {
 	GameMode = Cast<AWMainGameMode>(UGameplayStatics::GetGameMode(this));
+}
+
+void AWEnemyChild::BeginPlay()
+{
+	Super::BeginPlay();
+	Gun = GetWorld()->SpawnActor<AWPistolBase>(GunClass);
+
+	//GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
+	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("GunSocket"));
+	Gun->SetOwner(this);
+
+}
+
+void AWEnemyChild::Shoot()
+{
+	if (World != NULL)
+	{
+		((AWPistolBase*)Weapon->GetChildActor())->Firing(true);
+		
+	}
 }
 
 void AWEnemyChild::Tick(float DeltaTime)
@@ -30,3 +51,9 @@ void AWEnemyChild::OnDeath()
 		}
 	}
 }
+
+bool AWEnemyChild::IsDead() const
+{
+	return Health <= 0;
+}
+

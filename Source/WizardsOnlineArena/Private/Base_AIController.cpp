@@ -2,7 +2,7 @@
 
 
 #include "Base_AIController.h"
-
+#include "WEnemyChild.h"
 #include "Kismet/GameplayStatics.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
@@ -18,12 +18,12 @@ void ABase_AIController::BeginPlay()
 		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 		
 		//Safety check - this was causing the program to crash when spawning new enemies
-		if (GetPawn() != nullptr)
-			GetBlackboardComponent()->SetValueAsVector(TEXT("StartLocation"), GetPawn()->GetActorLocation());
+		//if (GetPawn() != nullptr)
+		GetBlackboardComponent()->SetValueAsVector(TEXT("StartLocation"), GetPawn()->GetActorLocation());
 
 		//Setting BlackBoard key values- Uses GetBlackboardComponent to get hold of the key
 		//SetValueAsVector - first parameter is KeyName
-		GetBlackboardComponent()->SetValueAsVector(TEXT("PlayerLocation"), PlayerPawn->GetActorLocation());
+		//GetBlackboardComponent()->SetValueAsVector(TEXT("PlayerLocation"), PlayerPawn->GetActorLocation());
 	}
 }
 

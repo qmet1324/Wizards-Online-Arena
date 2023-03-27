@@ -2,6 +2,7 @@
 
 
 #include "WPistolBase.h"
+#include "Base_AIController.h"
 
 #include "Components/StaticMeshComponent.h"
 #include "Animation/AnimInstance.h"
@@ -105,6 +106,32 @@ void AWPistolBase::Firing()
 	}
 }
 
+//Overloaded Function
+void AWPistolBase::Firing(bool isEnemy)
+{
+	//UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
+	//UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
+	UE_LOG(LogTemp, Warning, TEXT("AI is firing"));
+	FHitResult Hit;
+	FVector ShotDirection;
+	bool bSuccess = GunTrace(Hit, ShotDirection);
+	if (bSuccess)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AI HIT"));
+		//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, Hit.Location, ShotDirection.Rotation());
+		//UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSound, Hit.Location);
+
+		AActor* HitActor = Hit.GetActor();
+		if (HitActor != nullptr)
+		{
+			FPointDamageEvent DamageEvent(damageValue, Hit, ShotDirection, nullptr);
+			AController* OwnerController = GetOwnerController();
+			HitActor->TakeDamage(damageValue, DamageEvent, OwnerController, this);
+		}
+	}
+}
+
+
 void AWPistolBase::Reloading()
 {
 	if (ammo != maxAmmo)
@@ -127,6 +154,42 @@ void AWPistolBase::Reloading()
 		}
 	}
 }
+
+bool AWPistolBase::GunTrace(FHitResult& Hit, FVector& ShotDirection)
+{
+	AController* OwnerController = GetOwnerController();
+	if (OwnerController == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GUNTRACE -> OwnerController == nullptr"));
+		return false;
+	}
+
+	FVector Location;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+	ShotDirection = -Rotation.Vector();
+
+	FVector End = Location + Rotation.Vector() * maxRange;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
+	UE_LOG(LogTemp, Warning, TEXT("AI TRIED"));
+	return GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
+}
+
+AController* AWPistolBase::GetOwnerController() const
+{
+	ACharacter* OwnerPawn = Cast<ACharacter>(GetOwner());
+	ABase_AIController* Controller = Cast<ABase_AIController>(OwnerPawn->GetController());
+	if (OwnerPawn == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("OwnerPawn == nullptr"));
+		return nullptr;
+	}
+	return Controller;
+}
+
+
 
 void AWPistolBase::FireTimer()
 {

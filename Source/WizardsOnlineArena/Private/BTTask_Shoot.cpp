@@ -29,7 +29,7 @@ EBTNodeResult::Type UBTTask_Shoot::ExecuteTask(UBehaviorTreeComponent& OwnerComp
         return EBTNodeResult::Failed;
     }
 
-    Character->OnFire();
+    Character->Shoot();
 
     return EBTNodeResult::Succeeded;
 }

@@ -19,6 +19,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void Firing();
+	void Firing(bool isEnemy);
 
 	UFUNCTION(BlueprintCallable)
 	void Reloading();
@@ -83,4 +84,8 @@ public:
 
 	// Render object in world
 	class UWorld* World;
+
+	bool GunTrace(FHitResult& Hit, FVector& ShotDirection);
+
+	AController* GetOwnerController() const;
 };
