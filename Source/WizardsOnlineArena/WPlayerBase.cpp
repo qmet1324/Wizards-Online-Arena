@@ -127,6 +127,19 @@ float AWPlayerBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 	Health -= DamageToApply;
 	UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
 
+	if (Health <= 0)
+	{
+		//Adding a game end call
+		GameMode = GameMode == nullptr ? GetWorld()->GetAuthGameMode<AWMainGameMode>() : GameMode;
+		if (GameMode != nullptr)
+		{
+			GameMode->PawnKilled(this);
+		}
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	}
+
 	if (isDead==true)
 	{
 		DetachFromControllerPendingDestroy();

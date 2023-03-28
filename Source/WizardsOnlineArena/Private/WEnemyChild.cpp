@@ -19,7 +19,6 @@ void AWEnemyChild::BeginPlay()
 	//GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("GunSocket"));
 	Gun->SetOwner(this);
-
 }
 
 void AWEnemyChild::Shoot()
@@ -28,7 +27,6 @@ void AWEnemyChild::Shoot()
 	{
 		Gun->Firing(true);
 		//((AWPistolBase*)Weapon->GetChildActor())->Firing(true);
-		
 	}
 }
 
