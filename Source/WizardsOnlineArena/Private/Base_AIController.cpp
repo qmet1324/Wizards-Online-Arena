@@ -17,7 +17,9 @@ void ABase_AIController::BeginPlay()
 		//Get hold of the pawn player
 		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 		
-		GetBlackboardComponent()->SetValueAsVector(TEXT("StartLocation"), GetPawn()->GetActorLocation());
+		//Safety check - this was causing the program to crash when spawning new enemies
+		if (GetPawn() != nullptr)
+			GetBlackboardComponent()->SetValueAsVector(TEXT("StartLocation"), GetPawn()->GetActorLocation());
 
 		//Setting BlackBoard key values- Uses GetBlackboardComponent to get hold of the key
 		//SetValueAsVector - first parameter is KeyName

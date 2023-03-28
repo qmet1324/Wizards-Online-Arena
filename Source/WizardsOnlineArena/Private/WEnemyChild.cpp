@@ -2,11 +2,12 @@
 
 
 #include "WEnemyChild.h"
-
+#include "WMainGameMode.h"
+#include "Kismet/GameplayStatics.h"
 
 AWEnemyChild::AWEnemyChild()
 {
-
+	GameMode = Cast<AWMainGameMode>(UGameplayStatics::GetGameMode(this));
 }
 
 void AWEnemyChild::Tick(float DeltaTime)
@@ -14,21 +15,18 @@ void AWEnemyChild::Tick(float DeltaTime)
 
 }
 
-void AWEnemyChild::Dies()
+void AWEnemyChild::OnDeath()
 {
-	//AWEnemyChild::EnemiesLeft[1] -= 1;
-}
-
-bool AWEnemyChild::DropLoot()
-{
-	/*for (int i = 0; i < Zones; i++)
+	if (!isDead)
 	{
-		if (EnemiesLeft[i] <= 0)
+		isDead = true;
+		//Creates a GameMode pointer to our AWMainGameMode
+		//It needs to use the function GetWorld()->GetAuthGameMode. So we pass our class as the template
+		GameMode = GameMode == nullptr ? GetWorld()->GetAuthGameMode<AWMainGameMode>() : GameMode;	//Check if our GameMode was correctly assigned in the class constructor
+		if (GameMode != nullptr)	//safety check
 		{
-			UE_LOG(LogTemp, Warning, TEXT("YOU HAVE WON"));
-			return true;
+			//Tells the GameMode that this enemy that belonged to the specific zone is dead
+			GameMode->PawnKilled(this, BelongsToZone);
 		}
-	}*/
-
-	return false;
+	}
 }
