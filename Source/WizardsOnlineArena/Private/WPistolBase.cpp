@@ -140,7 +140,7 @@ void AWPistolBase::Reloading()
 		{
 			isReloading = true;
 
-			if (fireSound != NULL)
+			if (reloadSound != NULL)
 			{
 				UGameplayStatics::PlaySoundAtLocation(this, reloadSound, GetActorLocation());
 			}
