@@ -35,12 +35,14 @@ protected:
 
 
 public:	
-	void OnFire();
+	virtual void OnFire();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 		
 public:
 
@@ -102,4 +104,6 @@ public:
 	void DamageTaken(float damageAmount);
 	//float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	
+	UPROPERTY()
+		class AWMainGameMode* GameMode;
 };

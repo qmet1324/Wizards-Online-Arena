@@ -120,6 +120,36 @@ void AWPlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction(TEXT("Reload"), IE_Pressed, this, &AWPlayerBase::OnReload);
 }
 
+float AWPlayerBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	DamageToApply = FMath::Min(Health, DamageToApply);
+	Health -= DamageToApply;
+	UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
+
+	if (Health <= 0)
+	{
+		//Adding a game end call
+		GameMode = GameMode == nullptr ? GetWorld()->GetAuthGameMode<AWMainGameMode>() : GameMode;
+		if (GameMode != nullptr)
+		{
+			GameMode->PawnKilled(this);
+		}
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	}
+
+	//if (isDead==true)
+	//{
+	//	DetachFromControllerPendingDestroy();
+	//	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	//}
+
+	return DamageToApply;
+
+}
+
 // Movement Calls
 void AWPlayerBase::MoveForward(float yMove)
 {
@@ -205,6 +235,13 @@ void AWPlayerBase::OnDeath()
 
 		FTimerHandle respawnTimer;
 		GetWorld()->GetTimerManager().SetTimer(respawnTimer, this, &AWPlayerBase::Respawn, respawnDelay, false);
+
+		//Adding a game end call
+		GameMode = GameMode == nullptr ? GetWorld()->GetAuthGameMode<AWMainGameMode>() : GameMode;
+		if (GameMode != nullptr)
+		{
+			GameMode->PawnKilled(this);
+		}
 	}
 }
 
