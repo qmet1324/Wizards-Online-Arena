@@ -26,7 +26,8 @@ void AWEnemyChild::Shoot()
 {
 	if (World != NULL)
 	{
-		((AWPistolBase*)Weapon->GetChildActor())->Firing(true);
+		Gun->Firing(true);
+		//((AWPistolBase*)Weapon->GetChildActor())->Firing(true);
 		
 	}
 }

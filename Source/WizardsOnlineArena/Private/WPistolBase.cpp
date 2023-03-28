@@ -158,6 +158,7 @@ void AWPistolBase::Reloading()
 bool AWPistolBase::GunTrace(FHitResult& Hit, FVector& ShotDirection)
 {
 	AController* OwnerController = GetOwnerController();
+	
 	if (OwnerController == nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("GUNTRACE -> OwnerController == nullptr"));
@@ -179,14 +180,13 @@ bool AWPistolBase::GunTrace(FHitResult& Hit, FVector& ShotDirection)
 
 AController* AWPistolBase::GetOwnerController() const
 {
-	ACharacter* OwnerPawn = Cast<ACharacter>(GetOwner());
-	ABase_AIController* Controller = Cast<ABase_AIController>(OwnerPawn->GetController());
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
 	if (OwnerPawn == nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("OwnerPawn == nullptr"));
 		return nullptr;
 	}
-	return Controller;
+	return OwnerPawn->GetController();
 }
 
 

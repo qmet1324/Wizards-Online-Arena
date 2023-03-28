@@ -48,3 +48,14 @@ void ABase_AIController::Tick(float DeltaTime)
 	//}
 
 }
+
+bool ABase_AIController::isDead() const
+{
+	AWEnemyChild* ControlledCharacter = Cast<AWEnemyChild>(GetPawn());
+	if (ControlledCharacter != nullptr)
+	{
+		return ControlledCharacter->IsDead(); 
+	}
+
+	return true;
+}

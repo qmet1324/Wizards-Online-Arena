@@ -23,7 +23,7 @@ EBTNodeResult::Type UBTTask_Shoot::ExecuteTask(UBehaviorTreeComponent& OwnerComp
 
     //Attack component
     //Safety step to see if the class was corrected assigned
-    AWEnemyChild* Character = Cast<AWEnemyChild>(OwnerComp.GetAIOwner()->GetPawn());
+    AWEnemyChild* Character = Cast<AWEnemyChild>(OwnerComp.GetAIOwner()->GetCharacter());
     if (Character == nullptr)
     {
         return EBTNodeResult::Failed;
