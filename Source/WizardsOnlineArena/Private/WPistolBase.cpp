@@ -29,7 +29,9 @@ void AWPistolBase::BeginPlay()
 
 	World = GetWorld();
 
-	SetOwner(GetWorld()->GetFirstPlayerController());
+	//AttachToActor(this);
+
+	//SetOwner(GetWorld()->GetFirstPlayerController());
 
 	ammo = maxAmmo;
 }
@@ -57,9 +59,13 @@ void AWPistolBase::Firing/*_Implementation*/()
 		{
 			if (!GetWorldTimerManager().IsTimerActive(timerFire) && !isReloading)
 			{
-				if (GetLocalRole() != ROLE_Authority) 
+				if (GetLocalRole() != ROLE_Authority)
 				{
-					GEngine->AddOnScreenDebugMessage(3, 15.0f, FColor::Red, TEXT("NO AUTHORITY OVER CREATED WEAPON"));
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("NO AUTHORITY OVER CREATED WEAPON"));
+				}
+				else if (GetLocalRole() == ROLE_Authority)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("PLAYER HAS AUTHORITY OVER WEAPON"));
 				}
 				
 				/*AActor* Shooter = GetOwner();
