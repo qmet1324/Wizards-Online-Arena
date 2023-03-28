@@ -140,11 +140,11 @@ float AWPlayerBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 
 	}
 
-	if (isDead==true)
-	{
-		DetachFromControllerPendingDestroy();
-		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	}
+	//if (isDead==true)
+	//{
+	//	DetachFromControllerPendingDestroy();
+	//	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	//}
 
 	return DamageToApply;
 

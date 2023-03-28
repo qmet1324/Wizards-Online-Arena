@@ -4,11 +4,6 @@
 #include "WMainGameMode.h"
 #include "../MyPickup.h"
 
-#include "EngineUtils.h"
-#include "WPlayerController.h"
-#include "GameFramework/Controller.h"
-
-
 AWMainGameMode::AWMainGameMode()
 {
 
@@ -63,18 +58,10 @@ void AWMainGameMode::PawnKilled(APawn* PawnKilled, int numZone)
 
 void AWMainGameMode::PawnKilled(APawn* PawnKilled)
 {
-	AWPlayerController* PlayerController = Cast<AWPlayerController>(PawnKilled->GetController());
+	APlayerController* PlayerController = Cast<APlayerController>(PawnKilled->GetController());
 	if (PlayerController != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Reachead PAWN KILLED with player"));
-		/*for (AController* Controller : TActorRange<AController>(GetWorld()))
-		{
-			bool bIsWinner = false;
-			Controller->GameHasEnded(Controller->GetPawn(), bIsWinner);
-		}*/
-
-
-		PlayerController->GameHasEnded(PlayerController->GetPawn(), false);
+		PlayerController->GameHasEnded(nullptr, false);
 	}
 }
 
