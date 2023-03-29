@@ -2,6 +2,7 @@
 
 
 #include "WPistolBase.h"
+#include "Base_AIController.h"
 
 #include "Components/StaticMeshComponent.h"
 #include "Animation/AnimInstance.h"
@@ -62,7 +63,7 @@ void AWPistolBase::Firing()
 				traceParams.bReturnPhysicalMaterial = true;
 
 				FHitResult hitResults;
-				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation, raycastTrace, ECC_WorldDynamic, traceParams))
+				if (GetWorld()->LineTraceSingleByChannel(hitResults, cameraLocation + (cameraRotation.Vector() * 100), raycastTrace, ECC_WorldDynamic, traceParams))
 				{
 					AWPlayerBase* enemyPlayer = Cast<AWPlayerBase>(hitResults.GetActor());
 
@@ -74,7 +75,7 @@ void AWPistolBase::Firing()
 
 				if (GetWorld() != NULL)
 				{
-					DrawDebugLine(GetWorld(), cameraLocation, raycastTrace, FColor::Blue, false, 10.0f, 0, 5.0f);
+					DrawDebugLine(GetWorld(), cameraLocation + (cameraRotation.Vector() * 100), raycastTrace, FColor::Blue, false, 10.0f, 0, 5.0f);
 				}
 
 				// Fire Sound Effect
@@ -105,6 +106,32 @@ void AWPistolBase::Firing()
 	}
 }
 
+//Overloaded Function
+void AWPistolBase::Firing(bool isEnemy)
+{
+	//UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
+	//UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
+	UE_LOG(LogTemp, Warning, TEXT("AI is firing"));
+	FHitResult Hit;
+	FVector ShotDirection;
+	bool bSuccess = GunTrace(Hit, ShotDirection);
+	if (bSuccess)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AI HIT"));
+		//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, Hit.Location, ShotDirection.Rotation());
+		//UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSound, Hit.Location);
+
+		AActor* HitActor = Hit.GetActor();
+		if (HitActor != nullptr)
+		{
+			FPointDamageEvent DamageEvent(damageValue, Hit, ShotDirection, nullptr);
+			AController* OwnerController = GetOwnerController();
+			HitActor->TakeDamage(damageValue, DamageEvent, OwnerController, this);
+		}
+	}
+}
+
+
 void AWPistolBase::Reloading()
 {
 	if (ammo != maxAmmo)
@@ -127,6 +154,42 @@ void AWPistolBase::Reloading()
 		}
 	}
 }
+
+bool AWPistolBase::GunTrace(FHitResult& Hit, FVector& ShotDirection)
+{
+	AController* OwnerController = GetOwnerController();
+	
+	if (OwnerController == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GUNTRACE -> OwnerController == nullptr"));
+		return false;
+	}
+
+	FVector Location;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+	ShotDirection = -Rotation.Vector();
+
+	FVector End = Location + Rotation.Vector() * maxRange;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
+	UE_LOG(LogTemp, Warning, TEXT("AI TRIED"));
+	return GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
+}
+
+AController* AWPistolBase::GetOwnerController() const
+{
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	if (OwnerPawn == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("OwnerPawn == nullptr"));
+		return nullptr;
+	}
+	return OwnerPawn->GetController();
+}
+
+
 
 void AWPistolBase::FireTimer()
 {
