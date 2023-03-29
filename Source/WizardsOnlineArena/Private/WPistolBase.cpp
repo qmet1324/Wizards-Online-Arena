@@ -31,7 +31,7 @@ void AWPistolBase::BeginPlay()
 
 	//AttachToActor(this);
 
-	//SetOwner(GetWorld()->GetFirstPlayerController());
+	SetOwner(GetWorld()->GetFirstPlayerController());
 
 	ammo = maxAmmo;
 }
