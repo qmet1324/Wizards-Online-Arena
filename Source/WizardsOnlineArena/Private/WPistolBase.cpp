@@ -174,7 +174,6 @@ bool AWPistolBase::GunTrace(FHitResult& Hit, FVector& ShotDirection)
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(this);
 	Params.AddIgnoredActor(GetOwner());
-	UE_LOG(LogTemp, Warning, TEXT("AI TRIED"));
 	return GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
 }
 
