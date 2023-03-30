@@ -127,12 +127,12 @@ float AWPlayerBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 	Health -= DamageToApply;
 	UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
 
-	if (damageTakenSound != NULL)
+	if (damageTakenSound != NULL && Health != 0)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, damageTakenSound, GetActorLocation());
 	}
 
-	if (Health <= 0)
+	if (Health <= 0 && !isDead)
 	{
 		if (deathSound != NULL)
 		{
@@ -146,7 +146,7 @@ float AWPlayerBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 		}
 		DetachFromControllerPendingDestroy();
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
+		isDead = true;
 	}
 
 	//if (isDead==true)
