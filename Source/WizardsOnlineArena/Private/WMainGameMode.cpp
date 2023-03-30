@@ -5,6 +5,8 @@
 #include "../MyPickup.h"
 #include "Math/UnrealMathUtility.h"
 
+#include "WPistolBase.h"
+
 AWMainGameMode::AWMainGameMode()
 {
 
@@ -22,7 +24,6 @@ void AWMainGameMode::PawnKilled(APawn* PawnKilled, int numZone)
 	UE_LOG(LogTemp, Warning, TEXT("Zones[%d] = %d"), numZone, Zones[numZone]);
 
 	int randomLoot = FMath::RandRange(0,4);
-
 
 	//If we cleared the Zone
 	if (Zones[numZone] == 0)
