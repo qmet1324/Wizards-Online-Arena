@@ -70,6 +70,10 @@ void AWPistolBase::Firing()
 					if (enemyPlayer)
 					{
 						enemyPlayer->DamageTaken(damageValue);
+						if (feedbackSound != NULL)
+						{
+							UGameplayStatics::PlaySoundAtLocation(this, feedbackSound, GetActorLocation());
+						}
 					}
 				}
 
