@@ -16,7 +16,10 @@ class WIZARDSONLINEARENA_API AWEnemyChild : public AWPlayerBase
 
 public:
 	AWEnemyChild();
+	
+	void Shoot();
 
+	bool IsDead() const;
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
@@ -28,12 +31,19 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int BelongsToZone;
 
-	UPROPERTY()
-		class AWMainGameMode* GameMode;
+	/*UPROPERTY()
+		class AWMainGameMode* GameMode;*/
 
+protected:
+	virtual void BeginPlay() override;
 
 private:
 
+	UPROPERTY()
+		AWPistolBase* Gun;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<AWPistolBase> GunClass;
 
 
 };
