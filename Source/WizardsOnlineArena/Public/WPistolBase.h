@@ -31,6 +31,11 @@ public:
 	void FireTimer();
 	void ReloadTimer();
 
+	UFUNCTION(BlueprintCallable)
+	void CallOverFiring() { 
+		Firing(true); 
+		ammo--;
+	}
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
