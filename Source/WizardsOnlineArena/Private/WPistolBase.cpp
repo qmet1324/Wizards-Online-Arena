@@ -28,7 +28,7 @@ void AWPistolBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	AActor::bAlwaysRelevant();
+	AActor::bAlwaysRelevant = true;
 
 	World = GetWorld();
 
