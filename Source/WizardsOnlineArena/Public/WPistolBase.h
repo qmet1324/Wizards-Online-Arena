@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "WPistolBase.generated.h"
 
+
+
 UCLASS()
 class WIZARDSONLINEARENA_API AWPistolBase : public AActor
 {

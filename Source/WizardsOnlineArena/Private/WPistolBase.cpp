@@ -28,6 +28,8 @@ void AWPistolBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	AActor::bAlwaysRelevant();
+
 	World = GetWorld();
 
 	//AttachToActor(this);
