@@ -120,6 +120,45 @@ void AWPlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction(TEXT("Reload"), IE_Pressed, this, &AWPlayerBase::OnReload);
 }
 
+float AWPlayerBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	DamageToApply = FMath::Min(Health, DamageToApply);
+	Health -= DamageToApply;
+	UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
+
+	if (damageTakenSound != NULL && Health != 0)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, damageTakenSound, GetActorLocation());
+	}
+
+	if (Health <= 0 && !isDead)
+	{
+		if (deathSound != NULL)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, deathSound, GetActorLocation());
+		}
+		//Adding a game end call
+		GameMode = GameMode == nullptr ? GetWorld()->GetAuthGameMode<AWMainGameMode>() : GameMode;
+		if (GameMode != nullptr)
+		{
+			GameMode->PawnKilled(this);
+		}
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		isDead = true;
+	}
+
+	//if (isDead==true)
+	//{
+	//	DetachFromControllerPendingDestroy();
+	//	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	//}
+
+	return DamageToApply;
+
+}
+
 // Movement Calls
 void AWPlayerBase::MoveForward(float yMove)
 {
@@ -154,23 +193,24 @@ void AWPlayerBase::StopCrouch()
 
 void AWPlayerBase::OnFire()
 {
-	if (World != NULL)
-	{
-		((AWPistolBase*)Weapon->GetChildActor())->Firing();
-	}
+	//if (World != NULL)
+	//{
+	//	((AWPistolBase*)Weapon->GetChildActor())->Firing();
+	//}
 }
 
 void AWPlayerBase::OnReload()
 {
-	if (World != NULL)
-	{
-		((AWPistolBase*)Weapon->GetChildActor())->Reloading();
-	
-		// Play Reload Animation
-	}
+	//if (World != NULL)
+	//{
+	//	((AWPistolBase*)Weapon->GetChildActor())->Reloading();
+	//
+	//	// Play Reload Animation
+	//}
 }
 
-void AWPlayerBase::TakeDamage(float damageAmount)
+void AWPlayerBase::DamageTaken(float damageAmount)
+//float AWPlayerBase::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	Health -= damageAmount;
 
@@ -189,8 +229,6 @@ void AWPlayerBase::OnDeath()
 
 		//Play Death Animation
 
-		//Play Death Sound
-
 		APlayerController* owner = Cast<APlayerController>(GetController());
 		if (owner)
 		{
@@ -204,6 +242,13 @@ void AWPlayerBase::OnDeath()
 
 		FTimerHandle respawnTimer;
 		GetWorld()->GetTimerManager().SetTimer(respawnTimer, this, &AWPlayerBase::Respawn, respawnDelay, false);
+
+		//Adding a game end call
+		GameMode = GameMode == nullptr ? GetWorld()->GetAuthGameMode<AWMainGameMode>() : GameMode;
+		if (GameMode != nullptr)
+		{
+			GameMode->PawnKilled(this);
+		}
 	}
 }
 

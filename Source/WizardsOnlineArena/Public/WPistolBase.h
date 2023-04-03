@@ -19,6 +19,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void Firing();
+	void Firing(bool isEnemy);
 
 	UFUNCTION(BlueprintCallable)
 	void Reloading();
@@ -46,7 +47,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = GunProperty)
 		float reloadTime;
 
-	UPROPERTY(EditAnywhere, Category = GunProperty)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GunProperty)
 		float fireRate;
 
 	UPROPERTY(BlueprintReadOnly)
@@ -79,8 +80,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AnimEffect)
 		class UAnimMontage* reloadAnimation;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SoundEffect)
+		class USoundBase* feedbackSound;
+
 	class UAnimInstance* AnimInstance;
 
 	// Render object in world
 	class UWorld* World;
+
+	bool GunTrace(FHitResult& Hit, FVector& ShotDirection);
+
+	AController* GetOwnerController() const;
 };

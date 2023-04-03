@@ -3,6 +3,7 @@
 
 #include "BTTask_Shoot.h"
 #include "AIController.h"
+#include "WEnemyChild.h"
 
 //Class constructor
 UBTTask_Shoot::UBTTask_Shoot()
@@ -20,15 +21,15 @@ EBTNodeResult::Type UBTTask_Shoot::ExecuteTask(UBehaviorTreeComponent& OwnerComp
         return EBTNodeResult::Failed;
     }
 
-    //TODO: Add the attack component
+    //Attack component
     //Safety step to see if the class was corrected assigned
-    //AShooterCharacter* Character = Cast<AShooterCharacter>(OwnerComp.GetAIOwner()->GetPawn());
-    //if (Character == nullptr)
-    //{
-    //    return EBTNodeResult::Failed;
-    //}
+    AWEnemyChild* Character = Cast<AWEnemyChild>(OwnerComp.GetAIOwner()->GetCharacter());
+    if (Character == nullptr)
+    {
+        return EBTNodeResult::Failed;
+    }
 
-    //Character->Shoot();
+    Character->Shoot();
 
     return EBTNodeResult::Succeeded;
 }

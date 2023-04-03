@@ -15,37 +15,35 @@ class WIZARDSONLINEARENA_API AWEnemyChild : public AWPlayerBase
 	GENERATED_BODY()
 
 public:
+	AWEnemyChild();
+	
+	void Shoot();
+
+	bool IsDead() const;
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	UFUNCTION(BlueprintCallable)
-	void Dies();	
 	
-	UFUNCTION(BlueprintCallable)
-		bool DropLoot();
+	/*Override function that tells the GameMode that our enemy has died*/
+	//UFUNCTION(BlueprintCallable)
+	virtual void OnDeath() override;
 
-public:
+	/*This is a property to be set at the engine to tell which zone this enemy belongs*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int BelongsToZone;
 
-	AWEnemyChild();
+	/*UPROPERTY()
+		class AWMainGameMode* GameMode;*/
 
-	//static const int Zones = 8;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//int EnemiesPerZone = 5;
-	//
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	int BelongsToZone;
-	//
-	//static int EnemiesLeft[Zones];
-	////static int* EnemiesLeft[Zones];//= { EnemiesPerZone };
-	//int EnemiesLeft = { 5 };
-	////static int Arraye[5];
-
-	/*UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		TArray<int> EnemiesLeft;*/
+protected:
+	virtual void BeginPlay() override;
 
 private:
 
+	UPROPERTY()
+		AWPistolBase* Gun;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<AWPistolBase> GunClass;
 
 
 };

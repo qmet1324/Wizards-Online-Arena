@@ -28,19 +28,22 @@ protected:
 	void StartCrouch();
 	void StopCrouch();
 
-	void OnFire();
 	void OnReload();
 
-	void OnDeath();
+	UFUNCTION()
+	virtual void OnDeath();
 	void Respawn();
 
 
 public:	
+	virtual void OnFire();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 		
 public:
 
@@ -86,6 +89,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStat)
 		float Health;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SoundEffect)
+		class USoundBase* damageTakenSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SoundEffect)
+		class USoundBase* deathSound;
+
 	bool isDead;
 
 	float respawnDelay;
@@ -99,6 +108,9 @@ public:
 	//FRotator SpawnRotation;
 	//FVector SpawnLocation;
 
-	void TakeDamage(float damageAmount);
-
+	void DamageTaken(float damageAmount);
+	//float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	
+	UPROPERTY()
+		class AWMainGameMode* GameMode;
 };
