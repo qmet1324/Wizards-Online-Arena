@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "WPistolBase.generated.h"
 
+
+
 UCLASS()
 class WIZARDSONLINEARENA_API AWPistolBase : public AActor
 {
@@ -17,9 +19,13 @@ public:
 	
 	// Placeholders for now, maybe immplement the shooting code in the gun class instead of the player class
 	
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable /*NetMulticast, reliable, WithValidation*/)
 	void Firing();
 	void Firing(bool isEnemy);
+
+	//bool Firing_Validate();
+
+	//void Firing_Implementation();
 
 	UFUNCTION(BlueprintCallable)
 	void Reloading();
@@ -27,6 +33,11 @@ public:
 	void FireTimer();
 	void ReloadTimer();
 
+	UFUNCTION(BlueprintCallable)
+	void CallOverFiring() { 
+		Firing(true); 
+		ammo--;
+	}
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

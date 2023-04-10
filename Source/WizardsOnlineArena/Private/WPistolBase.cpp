@@ -9,6 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "../WPlayerBase.h"
 
+
 // Sets default values
 AWPistolBase::AWPistolBase()
 {
@@ -27,7 +28,13 @@ void AWPistolBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	AActor::bAlwaysRelevant = true;
+
 	World = GetWorld();
+
+	//AttachToActor(this);
+
+	SetOwner(GetWorld()->GetFirstPlayerController());
 
 	ammo = maxAmmo;
 }
@@ -39,7 +46,15 @@ void AWPistolBase::Tick(float DeltaTime)
 
 }
 
-void AWPistolBase::Firing()
+//bool AWPistolBase::Firing_Validate()
+//{
+//	if (World == NULL)
+//	{
+//		return false;
+//	}
+//	return true;
+//}
+void AWPistolBase::Firing/*_Implementation*/()
 {
 	if (World != NULL)
 	{
@@ -47,12 +62,28 @@ void AWPistolBase::Firing()
 		{
 			if (!GetWorldTimerManager().IsTimerActive(timerFire) && !isReloading)
 			{
-
+				if (GetLocalRole() != ROLE_Authority)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("NO AUTHORITY OVER CREATED WEAPON"));
+				}
+				else if (GetLocalRole() == ROLE_Authority)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("PLAYER HAS AUTHORITY OVER WEAPON"));
+				}
+				
+				/*AActor* Shooter = GetOwner();
+				if (!Shooter) 
+				{ 
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("FAILED TO GET OWNER"));
+					return; 
+				}*/
 				// Posible Hitscan code? Needs more testing.
 				FVector cameraLocation;
 				FRotator cameraRotation;
-				GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
-
+				//GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(cameraLocation, cameraRotation);
+				//user.GetPlayerViewPoint(cameraLocation, cameraRotation);
+				cameraRotation = GetOwner()->GetActorRotation();
+				cameraLocation = GetOwner()->GetActorLocation();
 				// Calculate the hit trace
 				FVector raycastTrace = cameraLocation + (cameraRotation.Vector() * maxRange);
 				
