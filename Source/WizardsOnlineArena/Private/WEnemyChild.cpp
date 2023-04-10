@@ -39,6 +39,7 @@ void AWEnemyChild::OnDeath()
 {
 	if (!isDead)
 	{
+		Gun->Destroy();
 		isDead = true;
 		//Creates a GameMode pointer to our AWMainGameMode
 		//It needs to use the function GetWorld()->GetAuthGameMode. So we pass our class as the template

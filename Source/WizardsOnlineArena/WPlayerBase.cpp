@@ -127,8 +127,17 @@ float AWPlayerBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 	Health -= DamageToApply;
 	UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
 
-	if (Health <= 0)
+	if (damageTakenSound != NULL && Health != 0)
 	{
+		UGameplayStatics::PlaySoundAtLocation(this, damageTakenSound, GetActorLocation());
+	}
+
+	if (Health <= 0 && !isDead)
+	{
+		if (deathSound != NULL)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, deathSound, GetActorLocation());
+		}
 		//Adding a game end call
 		GameMode = GameMode == nullptr ? GetWorld()->GetAuthGameMode<AWMainGameMode>() : GameMode;
 		if (GameMode != nullptr)
@@ -137,7 +146,7 @@ float AWPlayerBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 		}
 		DetachFromControllerPendingDestroy();
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
+		isDead = true;
 	}
 
 	//if (isDead==true)
@@ -219,8 +228,6 @@ void AWPlayerBase::OnDeath()
 		isDead = true;
 
 		//Play Death Animation
-
-		//Play Death Sound
 
 		APlayerController* owner = Cast<APlayerController>(GetController());
 		if (owner)
