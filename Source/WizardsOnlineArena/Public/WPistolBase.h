@@ -80,9 +80,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AnimEffect)
 		class UAnimMontage* reloadAnimation;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SoundEffect)
-		class USoundBase* feedbackSound;
-
 	class UAnimInstance* AnimInstance;
 
 	// Render object in world
