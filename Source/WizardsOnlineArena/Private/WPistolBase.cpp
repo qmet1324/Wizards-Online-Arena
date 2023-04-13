@@ -70,6 +70,10 @@ void AWPistolBase::Firing()
 					if (enemyPlayer)
 					{
 						enemyPlayer->DamageTaken(damageValue);
+						if (feedbackSound != NULL)
+						{
+							UGameplayStatics::PlaySoundAtLocation(this, feedbackSound, GetActorLocation());
+						}
 					}
 				}
 
@@ -140,7 +144,7 @@ void AWPistolBase::Reloading()
 		{
 			isReloading = true;
 
-			if (fireSound != NULL)
+			if (reloadSound != NULL)
 			{
 				UGameplayStatics::PlaySoundAtLocation(this, reloadSound, GetActorLocation());
 			}
