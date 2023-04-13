@@ -30,6 +30,7 @@ protected:
 
 	void OnReload();
 
+	UFUNCTION()
 	virtual void OnDeath();
 	void Respawn();
 
@@ -87,6 +88,12 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStat)
 		float Health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SoundEffect)
+		class USoundBase* damageTakenSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SoundEffect)
+		class USoundBase* deathSound;
 
 	bool isDead;
 

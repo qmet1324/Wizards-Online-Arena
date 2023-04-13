@@ -24,7 +24,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	/*Override function that tells the GameMode that our enemy has died*/
-	UFUNCTION(BlueprintCallable)
+	//UFUNCTION(BlueprintCallable)
 	virtual void OnDeath() override;
 
 	/*This is a property to be set at the engine to tell which zone this enemy belongs*/
