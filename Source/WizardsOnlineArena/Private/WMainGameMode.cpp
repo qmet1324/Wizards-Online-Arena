@@ -3,6 +3,9 @@
 
 #include "WMainGameMode.h"
 #include "../MyPickup.h"
+#include "Math/UnrealMathUtility.h"
+
+#include "WPistolBase.h"
 
 AWMainGameMode::AWMainGameMode()
 {
@@ -20,6 +23,8 @@ void AWMainGameMode::PawnKilled(APawn* PawnKilled, int numZone)
 	Zones[numZone] -= 1;
 	UE_LOG(LogTemp, Warning, TEXT("Zones[%d] = %d"), numZone, Zones[numZone]);
 
+	int randomLoot = FMath::RandRange(0,4);
+
 	//If we cleared the Zone
 	if (Zones[numZone] == 0)
 	{
@@ -30,27 +35,27 @@ void AWMainGameMode::PawnKilled(APawn* PawnKilled, int numZone)
 			/*This is where the magic happens to spawn the item.
 			We are passing the Item blueprint as the first parameter (it needs to be set in the engine!)*/
 			GetWorld()->SpawnActor<AMyPickup>(SpawnItem[Loot::HEALTH], Location, Rotation, MySpawn);
-			UE_LOG(LogTemp, Warning, TEXT("RESPAW HEALTH"));
 			ZonesCleared += 1;
 			break;
 		case 1:
 			GetWorld()->SpawnActor<AMyPickup>(SpawnItem[Loot::SMG], Location, Rotation, MySpawn);
-			UE_LOG(LogTemp, Warning, TEXT("RESPAW SMG"));
 			ZonesCleared += 1;	
 			break;
 		case 2:
 			GetWorld()->SpawnActor<AMyPickup>(SpawnItem[Loot::RIFLE], Location, Rotation, MySpawn);
-			UE_LOG(LogTemp, Warning, TEXT("RESPAW RIFLE"));
 			ZonesCleared += 1;		
 			break;
 		case 3:
 			GetWorld()->SpawnActor<AMyPickup>(SpawnItem[Loot::BOLT], Location, Rotation, MySpawn);
-			UE_LOG(LogTemp, Warning, TEXT("RESPAW BOLT"));
 			ZonesCleared += 1;
 			break;
 		default:
 			break;
 		}
+	}
+	else if (randomLoot == 0)
+	{
+		GetWorld()->SpawnActor<AMyPickup>(SpawnItem[Loot::HEALTH], Location, Rotation, MySpawn);
 	}
 	//Since the Enemy died, we can destroy it
 	GetWorld()->DestroyActor(PawnKilled);
