@@ -110,7 +110,7 @@ void AWPistolBase::Firing/*_Implementation*/()
 
 				if (GetWorld() != NULL)
 				{
-					DrawDebugLine(GetWorld(), cameraLocation + (cameraRotation.Vector() * 100), raycastTrace, FColor::Blue, false, 10.0f, 0, 5.0f);
+					//DrawDebugLine(GetWorld(), cameraLocation + (cameraRotation.Vector() * 100), raycastTrace, FColor::Blue, false, 10.0f, 0, 5.0f);
 				}
 
 				// Fire Sound Effect
