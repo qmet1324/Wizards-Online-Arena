@@ -67,9 +67,11 @@ void AWPistolBase::Firing()
 				{
 					AWPlayerBase* enemyPlayer = Cast<AWPlayerBase>(hitResults.GetActor());
 
-					if (enemyPlayer)
+					if (enemyPlayer && !enemyPlayer->ActorHasTag("Player"))
 					{
+						GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Get rekt"));
 						enemyPlayer->DamageTaken(damageValue);
+
 						if (feedbackSound != NULL)
 						{
 							UGameplayStatics::PlaySoundAtLocation(this, feedbackSound, GetActorLocation());
